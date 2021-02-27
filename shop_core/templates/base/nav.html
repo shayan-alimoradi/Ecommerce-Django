@@ -6,9 +6,18 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'account:log-out' %}">Log-out</a>
+          </li>
+          {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'account:sign-in' %}">Sign-In</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'account:sign-up' %}">Sign-Up</a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </div>

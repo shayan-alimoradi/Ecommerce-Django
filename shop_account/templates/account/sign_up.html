@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Sign-Up Page {% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            {{ form.username|as_crispy_field }}
+            {{ form.email|as_crispy_field }}
+            {{ form.password|as_crispy_field }}
+            {{ form.confirm_password|as_crispy_field }}
+            <button type="submit" class="btn btn-outline-info">sign-up</button>
+        </form>
+    </div>
+{% endblock %}

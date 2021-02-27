@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
 from captcha.fields import CaptchaField
 from .models import *
 
@@ -55,7 +56,7 @@ class SignInForm(forms.Form):
     captcha = CaptchaField()
 
 
-class SignUpForm(forms.Form):
+class SignUpForm(UserCreationForm):
     username = forms.CharField(max_length=77, error_messages=message, widget=forms.TextInput())
     email = forms.EmailField(max_length=77, error_messages=message, widget=forms.TextInput())
     password = forms.CharField(error_messages={'required': 'this field is required'}, widget=forms.PasswordInput())
@@ -81,3 +82,7 @@ class SignUpForm(forms.Form):
         if password != confirm_password:
             raise forms.ValidationError('Passwords must be mtach!')
         return confirm_password
+    
+    class Meta:
+        model = User
+        fields = ('email', 'username')

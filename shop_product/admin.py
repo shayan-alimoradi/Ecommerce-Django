@@ -15,7 +15,14 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = (VariantInline,)
 
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('title', 'is_sub', 'sub_cat')
+    list_filter = ('is_sub',)
+    prepopulated_fields = {'slug': ('title',)}
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Color)
 admin.site.register(Size)
 admin.site.register(Variant)
+admin.site.register(Category, CategoryAdmin)

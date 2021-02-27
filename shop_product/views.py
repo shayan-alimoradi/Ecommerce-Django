@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 from django.views import View
 from django.db.models import Q
 from .models import *
@@ -8,20 +9,28 @@ from .forms import *
 class ProductList(View):
     template_name = 'product/product_list.html'
     
-    def get(self, request):
+    def get(self, request, slug=None):
         products = Product.objects.filter(available=True)
+        paginator = Paginator(products, 3)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        categories = Category.objects.filter(is_sub=False)
+        if slug:
+            category = get_object_or_404(Category, slug=slug)
+            page_obj = products.filter(category=category)
         form = SearchForm()
         if 'search' in request.GET:
             form = SearchForm(request.GET)
             if form.is_valid():
                 data = form.cleaned_data['search']
-                products = products.filter(
+                page_obj = products.filter(
                     Q(title__icontains=data) |
                     Q(description__icontains=data)
                 )
         context = {
             'form': form,
-            'products': products
+            'products': page_obj,
+            'categories': categories
         }
         return render(request, self.template_name, context)
 
