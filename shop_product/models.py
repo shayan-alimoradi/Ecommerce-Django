@@ -2,11 +2,19 @@ from django.db import models
 from django_jalali.db import models as jmodels
 from django.utils.html import format_html
 from django.urls import reverse
+from shop_account.models import *
 
 
 class TimeStamp(models.Model):
     created = jmodels.jDateTimeField(auto_now_add=True)
     updated = jmodels.jDateTimeField(auto_now=True)
+
+
+class IPAddress(models.Model):
+    ip_address = models.GenericIPAddressField()
+
+    def __str__(self):
+        return self.ip_address
 
 
 class Category(models.Model):
@@ -39,6 +47,7 @@ class Product(TimeStamp):
     status = models.CharField(max_length=177, blank=True, choices=VARIANT)
     available = models.BooleanField(default=True)
     category = models.ManyToManyField(Category, blank=True)
+    visit_count = models.ManyToManyField(IPAddress, blank=True, related_name='visit_count')
 
     def __str__(self):
         return self.title
@@ -57,6 +66,14 @@ class Product(TimeStamp):
     
     def get_absolute_url(self):
         return reverse('product:detail', args=[self.slug, self.id])
+    
+    def category_to_str(self):
+        return '-'.join([category.title for category in self.category.all()])
+    category_to_str.short_description = 'Categories'
+
+    def get_visit_count(self):
+        return self.visit_count.count()
+    get_visit_count.short_description = 'Visit Count'
 
 class Color(models.Model):
     title = models.CharField(max_length=177)
@@ -93,3 +110,15 @@ class Variant(models.Model):
             total = (self.discount * self.unit_price) / 100
             return int(self.unit_price - total)
         return self.total_price
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+    comment = models.TextField()
+    status = models.BooleanField(default=False)
+    reply = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+    is_reply = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user} - {self.comment[:17]}'

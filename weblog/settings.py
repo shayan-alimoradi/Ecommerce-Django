@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'shop_core.apps.ShopCoreConfig',
     'shop_account.apps.ShopAccountConfig',
     'shop_product.apps.ShopProductConfig',
+    'shop_slider.apps.ShopSliderConfig',
+    'shop_cart.apps.ShopCartConfig',
 
     # Third-Party App
     'django_jalali',
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'shop_product.middleware.SimpleMiddleware',
 ]
 
 ROOT_URLCONF = 'weblog.urls'

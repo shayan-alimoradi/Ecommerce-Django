@@ -56,7 +56,7 @@ class SignInForm(forms.Form):
     captcha = CaptchaField()
 
 
-class SignUpForm(UserCreationForm):
+class SignUpForm(forms.Form):
     username = forms.CharField(max_length=77, error_messages=message, widget=forms.TextInput())
     email = forms.EmailField(max_length=77, error_messages=message, widget=forms.TextInput())
     password = forms.CharField(error_messages={'required': 'this field is required'}, widget=forms.PasswordInput())
@@ -83,6 +83,3 @@ class SignUpForm(UserCreationForm):
             raise forms.ValidationError('Passwords must be mtach!')
         return confirm_password
     
-    class Meta:
-        model = User
-        fields = ('email', 'username')
