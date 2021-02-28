@@ -1,14 +1,18 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
+from django.views.generic.edit import UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
 from django.contrib import messages
 from django.core.mail import EmailMessage
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from .forms import *
 
@@ -91,3 +95,42 @@ class Logout(View):
         logout(request)
         messages.info(request, 'logged out successfully')
         return redirect('/')
+
+
+class UserProfile(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    template_name = 'account/profile.html'
+    login_url = 'account:sign-in'
+    model = User
+    fields = ('email', 'username')
+    success_message = 'Profile Updated Successfully'
+    success_url = reverse_lazy('account:profile')
+
+    def get_object(self):
+        return User.objects.get(pk=self.request.user.pk)
+
+
+class ChangePassword(LoginRequiredMixin, View):
+    login_url = 'account:sign-in'
+    template_name = 'account/change_pass.html'
+
+    def get(self, request):
+        form = PasswordChangeForm(request.user)
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request):
+        url = request.META.get('HTTP_REFERER')
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Password Successfully Changed', 'success')
+            return redirect(url)
+        return render(request, self.template_name, {'form': form})
+
+
+class UserPanel(LoginRequiredMixin, View):
+    template_name = 'account/user_panel.html'
+    login_url = 'account:sign-in'
+
+    def get(self, request):
+        return render(request, self.template_name)

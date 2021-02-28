@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} {{ request.user.username|capfirst }} Profile {% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.username|as_crispy_field }}
+            {{ form.email|as_crispy_field }}
+            <button type="submit" class="btn btn-outline-info">Update</button>
+        </form>
+    </div>
+{% endblock %}

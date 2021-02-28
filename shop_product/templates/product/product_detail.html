@@ -17,9 +17,8 @@
 
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="index.html">Home</a>
+        <a href="index.html">{{ product.title }}</a>
       </li>
-      <li class="breadcrumb-item active">Blog Home 2</li>
     </ol>
 
     <div class="row">
@@ -40,7 +39,7 @@
             {% csrf_token %}
             {% for v in variant %}
                 <input type="radio" name="select" value="{{ v.id }}"
-                {% if variants.id == v.id %} checked {% endif %}
+                {% if variants.id == v.id %} checked {% endif %} required
                 onchange="this.form.submit()">
                 <a>{{ v.color_variant }}</a>
             {% endfor %}
@@ -50,13 +49,15 @@
             {% csrf_token %}
             {% for v in variant %}
                 <input type="radio" name="select" value="{{ v.id }}"
-                {% if variants.id == v.id %} checked {% endif %}
+                {% if variants.id == v.id %} checked {% endif %} required
                 onchange="this.form.submit()">
                 <a>{{ v.size_variant }}</a>
             {% endfor %}
             </form>
         {% endif %}
 
+            <h5>price: {{ variants.total_price }} Toman</h5>
+      
         {% if product.status is not None %}
             <form method="POST" action="{% url 'cart:add' product.id %}">
               {% csrf_token %}

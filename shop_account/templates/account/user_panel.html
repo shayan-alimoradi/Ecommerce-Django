@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+
+{% block title %} User Panel {% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="{% url 'account:profile' %}">Profile</a></li>
+            <li class="list-group-item"><a href="{% url 'account:change-pass' %}">Change Password</a></li>
+          </ul>
+    </div>
+{% endblock %}
