@@ -1,8 +1,17 @@
 {% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %} Order Detail {% endblock %}
 
 
 {% block content %}
-    <h3>Total Price:</h3>
+    <h3>Total Price: {{ order.get_total_price }}</h3><br>
+
+    <div class="col-4">
+        <form method="POST" action="{% url 'order:coupon' order.id %}">
+            {% csrf_token %}
+            {{ form.code|as_crispy_field }}
+            <button type="submit" class="btn btn-outline-info">Confirm Discount</button>
+        </form>
+    </div>
 {% endblock %}
