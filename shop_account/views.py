@@ -9,6 +9,7 @@ from .tokens import account_activation_token
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth import views as auth_views
 from django.http import HttpResponse
 from django.contrib import messages
 from django.core.mail import EmailMessage
@@ -138,3 +139,22 @@ class UserPanel(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, self.template_name)
+
+
+class ResetPassword(auth_views.PasswordResetView):
+    template_name = 'account/reset.html'
+    email_template_name = 'account/link.html'
+    success_url = reverse_lazy('account:done')
+
+
+class DonePassword(auth_views.PasswordResetDoneView):
+    template_name = 'account/done.html'
+
+
+class ConfirmPassword(auth_views.PasswordResetConfirmView):
+    template_name = 'account/confirm.html'
+    success_url = reverse_lazy('account:complete')
+
+
+class CompeletePassword(auth_views.PasswordResetCompleteView):
+    template_name = 'account/complete.html'

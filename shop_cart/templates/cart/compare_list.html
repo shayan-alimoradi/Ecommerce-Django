@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+
+{% block title %} Compare List {% endblock %}
+
+
+{% block content %}
+  <!-- Page Content -->
+  <div class="container">
+
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+      </li>
+      <li class="breadcrumb-item active">Compare List</li>
+    </ol>
+
+    <div class="row">
+
+      <!-- Blog Entries Column -->
+      <div class="col-md-8">
+
+        <!-- Blog Post -->
+        {% for d in data %}
+        <div class="card mb-4">
+            <img class="card-img-top" src="{{ d.product.image.url }}" alt="Card image cap" style="width: 177px;">
+            <div class="card-body">
+              <h2 class="card-title"><a href="{{ d.get_absolute_url }}">{{ d.product.title }}</a></h2>
+              <p class="card-text"></p>
+              <a href="{{ d.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+            </div>
+            <div class="card-footer text-muted">
+              {{ d.product.unit_price }} Toman
+            </div>
+          </div>
+        {% endfor %}
+          
+          
+        </ul>
+
+        </div>
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+{% endblock %}

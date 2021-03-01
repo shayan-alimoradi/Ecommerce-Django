@@ -14,6 +14,7 @@ class ProductList(View):
     
     def get(self, request, slug=None):
         products = Product.objects.filter(available=True)
+        compare_form = CompareForm()
         paginator = Paginator(products, 3)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
@@ -33,7 +34,8 @@ class ProductList(View):
         context = {
             'form': form,
             'products': page_obj,
-            'categories': categories
+            'categories': categories,
+            'compare_form': compare_form,
         }
         return render(request, self.template_name, context)
 

@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Confirm Password {% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <form method="POST">
+            {% if validlink %}
+            {% csrf_token %}
+            {{ form.as_p}}
+            <button type="submit" class="btn btn-outline-info">sign-in</button><br><br>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}

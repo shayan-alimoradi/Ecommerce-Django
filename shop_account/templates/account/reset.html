@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Reset Password {% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            {{ form.email|as_crispy_field }}
+            <button type="submit" class="btn btn-outline-info">sign-in</button><br><br>
+        </form>
+    </div>
+{% endblock %}

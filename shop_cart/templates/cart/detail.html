@@ -51,10 +51,12 @@
             </tbody>
           </table>
 
+          {% if cart|length > 0 %}
           <form method="POST" action="{% url 'order:create' %}">
             {% csrf_token %}
             {{ form.address|as_crispy_field }}
             <button type="submit" class="btn btn-outline-primary">Confirm</button>
           </form>
+          {% endif %}
     </div>
 {% endblock %}

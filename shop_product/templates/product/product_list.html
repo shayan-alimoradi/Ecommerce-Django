@@ -35,6 +35,11 @@
             <div class="card-footer text-muted">
               {{ product.unit_price }} Toman
             </div>
+            <form method="POST" action="{% url 'cart:compare' product.id %}">
+              {% csrf_token %}
+              <input type="hidden" value="{{ product.id }}" name="product">
+              <button type="submit" class="btn btn-outline-danger">Compare</button>
+            </form>
           </div>
         {% endfor %}
 

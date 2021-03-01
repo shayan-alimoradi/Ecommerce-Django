@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from shop_order.forms import OrderForm
 from shop_product.models import *
 from .models import *
@@ -54,3 +55,33 @@ def remove_cart(request, id):
     cart = Cart.objects.get(id=id)
     cart.delete()
     return redirect(url)
+
+
+def add_to_compare_list(request, id):
+    url = request.META.get('HTTP_REFERER')
+    if request.user.is_authenticated:
+        item = get_object_or_404(Product, id=id)
+        qs = Compare.objects.filter(user_id=request.user.id, product_id=id)
+        if qs.exists():
+            messages.error(request, 'This item has already exists in your compare list', 'warning')
+        else:
+            Compare.objects.create(user_id=request.user.id, product_id=id)
+    else:
+        item = get_object_or_404(Product, id=id)
+        qs = Compare.objects.filter(user_id=None, product_id=id, session_key=request.session.session_key)
+        if qs.exists():
+            messages.error(request, 'This item has already exists in your compare list', 'warning')
+        else:
+            if not request.session.session_key:
+                request.session.create()
+            Compare.objects.create(user_id=None, product_id=id, session_key=request.session.session_key)
+    return redirect(url)
+
+
+def compare_list(request):
+    if request.user.is_authenticated:
+        data = Compare.objects.filter(user_id=request.user.id)
+        return render(request, 'cart/compare_list.html', {'data': data})
+    else:
+        data = Compare.objects.filter(session_key=request.session.session_key, user_id=None)
+        return render(request, 'cart/compare_list.html', {'data': data})

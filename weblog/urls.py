@@ -9,4 +9,5 @@ urlpatterns = [
     path('cart/', include('shop_cart.urls', namespace='cart')),
     path('order/', include('shop_order.urls', namespace='order')),
     path('captcha/', include('captcha.urls')),
+    path('accounts/', include('allauth.urls')),
 ]

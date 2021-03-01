@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.http import HttpResponse
 from django.contrib import messages
 from shop_cart.models import *
 from .models import *
@@ -11,6 +13,7 @@ def order_detail(request, id):
     return render(request, 'order/detail.html')
 
 
+@require_POST
 @login_required(login_url='account:sign-in')
 def create_order(request):
     if request.method == 'POST':
