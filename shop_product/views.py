@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.views import View
 from django.db.models import Q
@@ -39,6 +40,9 @@ class ProductList(View):
 
 def product_detail(request, slug, id):
     product = get_object_or_404(Product, slug=slug, id=id)
+    is_fav = False
+    if product.favourite.filter(id=request.user.id).exists():
+        is_fav = True
     form = CartForm()
     comment_form = CommentForm()
     comment = Comment.objects.filter(product_id=id, is_reply=False, status=True)
@@ -57,16 +61,18 @@ def product_detail(request, slug, id):
             except Variant.DoesNotExist:
                 variants = None
         context = {'product': product, 'variant': variant, 'variants': variants,
-        'form': form, 'comment_form': comment_form, 'comment': comment}
+        'form': form, 'comment_form': comment_form, 'comment': comment,
+        'is_fav': is_fav}
         return render(request, 'product/product_detail.html', context)
     else:
         context = {
             'product': product, 'form': form, 'comment_form': comment_form,
-            'comment': comment
+            'comment': comment, 'is_fav': is_fav
         }
         return render(request, 'product/product_detail.html', context)
 
 
+@login_required(login_url='account:sign-in')
 def add_comment(request, id):
     url = request.META.get('HTTP_REFERER')
     if request.method == 'POST':
@@ -77,3 +83,26 @@ def add_comment(request, id):
             product_id=id)
             messages.success(request, 'after we accept, your comment will show on site', 'primary')
         return redirect(url)
+
+
+@login_required(login_url='account:sign-in')
+def add_favourite(request, id):
+    url = request.META.get('HTTP_REFERER')
+    product = get_object_or_404(Product, id=id)
+    is_fav = False
+    if product.favourite.filter(id=request.user.id).exists():
+        product.favourite.remove(request.user)
+        is_fav = False
+    else:
+        product.favourite.add(request.user)
+        is_fav = True
+    return redirect(url)
+
+
+@login_required(login_url='account:sign-in')
+def favourite_list(request):
+    fa_product = request.user.fav.all()
+    paginator = Paginator(fa_product, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'product/fav_list.html', {'product': page_obj})

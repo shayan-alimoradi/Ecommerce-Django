@@ -15,7 +15,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
       </li>
-      <li class="breadcrumb-item active">Products</li>
+      <li class="breadcrumb-item active">Favourite List</li>
     </ol>
 
     <div class="row">
@@ -24,47 +24,49 @@
       <div class="col-md-8">
 
         <!-- Blog Post -->
-        {% for product in products %}
+        {% for p in product %}
         <div class="card mb-4">
-            <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap" style="width: 177px;">
+            <img class="card-img-top" src="{{ p.image.url }}" alt="Card image cap" style="width: 177px;">
             <div class="card-body">
-              <h2 class="card-title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h2>
+              <h2 class="card-title"><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></h2>
               <p class="card-text"></p>
-              <a href="{{ product.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+              <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
-              {{ product.unit_price }} Toman
+              {{ p.unit_price }} Toman
             </div>
           </div>
+        {% empty %}
+          <h3 class="alert alert-warning">Your favourite list is empty</h3>
         {% endfor %}
 
 
         <!-- Pagination -->
         <ul class="pagination justify-content-center mb-4">
           
-            {% if products.has_previous %}
+            {% if product.has_previous %}
             <li class="page-item">
-              <a class="page-link" href="?page={{ products.previous_page_number }}">&larr; previous</a>
+              <a class="page-link" href="?page={{ product.previous_page_number }}">&larr; previous</a>
             </li>
             {% endif %}
 
-            {% if products.has_previous %}
+            {% if product.has_previous %}
             <li class="page-item">
-              <a class="page-link" href="?page={{ products.previous_page_number }}">{{ products.previous_page_number }}</a>
+              <a class="page-link" href="?page={{ product.previous_page_number }}">{{ product.previous_page_number }}</a>
             </li>
             {% endif %}
           
-          <li class="page-item {% if page_num == page_num %} active {% endif %}"><a class="page-link" href="?page={{ products.number }}">{{ products.number }}</a></li>
+          <li class="page-item {% if page_num == page_num %} active {% endif %}"><a class="page-link" href="?page={{ product.number }}">{{ product.number }}</a></li>
           
-          {% if products.has_next %}
+          {% if product.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ products.next_page_number }}">{{ products.next_page_number }}</a>
+                <a class="page-link" href="?page={{ product.next_page_number }}">{{ product.next_page_number }}</a>
             </li>
             {% endif %}
 
-            {% if products.has_next %}
+            {% if product.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ products.next_page_number }}">next &rarr;</a>
+                <a class="page-link" href="?page={{ product.next_page_number }}">next &rarr;</a>
             </li>
             {% endif %}
           
@@ -85,24 +87,6 @@
                 {{ form }}
                   <input type="submit" class="btn btn-secondary" value="Go!" type="button">
               </form>
-            </div>
-          </div>
-        </div>
-
-        <!-- Categories Widget -->
-        <div class="card my-4">
-          <h5 class="card-header">Categories</h5>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-6">
-                <ul class="list-unstyled mb-0">
-                  {% for category in categories %}
-                  <li>
-                    <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
-                  </li>
-                  {% endfor %}
-                </ul>
-              </div>
             </div>
           </div>
         </div>

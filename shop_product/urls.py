@@ -9,4 +9,6 @@ urlpatterns = [
     path('category/<slug:slug>/', views.ProductList.as_view(), name='category'),
     path('product/<slug:slug>/<int:id>/', views.product_detail, name='detail'),
     path('add-comment/<int:id>/', views.add_comment, name='comment'),
+    path('add-to-favourite/<int:id>/', views.add_favourite, name='fav'),
+    path('favourite-list/', views.favourite_list, name='fav-list'),
 ]
