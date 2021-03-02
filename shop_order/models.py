@@ -39,6 +39,14 @@ class OrderItem(models.Model):
             return self.variant.total_price * self.quantity
         else:
             return self.product.total_price * self.quantity
+    
+    def get_color(self):
+        return self.variant.color_variant
+    get_color.short_description = 'color'
+
+    def get_size(self):
+        return self.variant.size_variant
+    get_size.short_description = 'size'
 
 
 class Coupon(models.Model):

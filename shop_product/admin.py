@@ -5,11 +5,12 @@ from .models import *
 class VariantInline(admin.TabularInline):
     model = Variant
     extra = 2
+    readonly_fields = ('sell',)
 
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'unit_price', 'amount',
-                    'discount', 'total_price', 'available',
+                    'discount', 'total_price', 'available', 'sell',
                     'category_to_str', 'get_visit_count', 'image_thumbnail')
     list_filter = ('available',)
     prepopulated_fields = {'slug': ('title',)}

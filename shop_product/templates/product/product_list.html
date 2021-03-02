@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %}
+{% load static %}
+{% load humanize %}
 
 {% block title %} Product List {% endblock %}
 
@@ -32,9 +34,15 @@
               <p class="card-text"></p>
               <a href="{{ product.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
             </div>
+            {% if request.user.is_special_user %}
             <div class="card-footer text-muted">
-              {{ product.unit_price }} Toman
+              {{ product.price_special_user|intcomma }} Toman
             </div>
+            {% else %}
+            <div class="card-footer text-muted">
+              {{ product.unit_price|intcomma }} Toman
+            </div>
+            {% endif %}
             <form method="POST" action="{% url 'cart:compare' product.id %}">
               {% csrf_token %}
               <input type="hidden" value="{{ product.id }}" name="product">
@@ -49,27 +57,27 @@
           
             {% if products.has_previous %}
             <li class="page-item">
-              <a class="page-link" href="?page={{ products.previous_page_number }}">&larr; previous</a>
+              <a class="page-link" href="?page={{ products.previous_page_number }}&{{ data }}">&larr; previous</a>
             </li>
             {% endif %}
 
             {% if products.has_previous %}
             <li class="page-item">
-              <a class="page-link" href="?page={{ products.previous_page_number }}">{{ products.previous_page_number }}</a>
+              <a class="page-link" href="?page={{ products.previous_page_number }}&{{ data }}">{{ products.previous_page_number }}</a>
             </li>
             {% endif %}
           
-          <li class="page-item {% if page_num == page_num %} active {% endif %}"><a class="page-link" href="?page={{ products.number }}">{{ products.number }}</a></li>
+          <li class="page-item {% if page_num == page_num %} active {% endif %}"><a class="page-link" href="?page={{ products.number }}&{{ data }}">{{ products.number }}</a></li>
           
           {% if products.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ products.next_page_number }}">{{ products.next_page_number }}</a>
+                <a class="page-link" href="?page={{ products.next_page_number }}&{{ data }}">{{ products.next_page_number }}</a>
             </li>
             {% endif %}
 
             {% if products.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ products.next_page_number }}">next &rarr;</a>
+                <a class="page-link" href="?page={{ products.next_page_number }}&{{ data }}">next &rarr;</a>
             </li>
             {% endif %}
           
@@ -116,7 +124,21 @@
         <div class="card my-4">
           <h5 class="card-header">Side Widget</h5>
           <div class="card-body">
-            You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+            <form>
+              <div class='multi-range' data-lbound='10' data-ubound='50'>
+                <hr />
+                <input type='range' name="price_gte"
+                       min='{{ min_price }}' max='{{ max_price }}' step='10000' value='{{ min_price }}' 
+                       oninput='this.parentNode.dataset.lbound=this.value;'
+                />
+                <input type='range' name="price_lte"
+                       min='{{ min_price }}' max='{{ max_price }}' step='10000' value='{{ max_price }}' 
+                       oninput='this.parentNode.dataset.ubound=this.value;'
+                />
+            </div>
+            <button type="submit" class="btn btn-outline-danger">Filter</button>
+            </form>
+            <link rel="stylesheet" href="{% static 'css/multi_range.css' %}">
           </div>
         </div>
 

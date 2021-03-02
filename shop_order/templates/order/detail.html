@@ -12,6 +12,7 @@
             {% csrf_token %}
             {{ form.code|as_crispy_field }}
             <button type="submit" class="btn btn-outline-info">Confirm Discount</button>
-        </form>
+        </form><br>
+        <a href="{% url 'order:request' order.get_total_price order.id %}" class="btn btn-outline-danger">Payment</a>
     </div>
 {% endblock %}

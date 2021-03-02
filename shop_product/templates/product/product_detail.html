@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_tags %}
+{% load humanize %}
 
 {% block title %} {{ product.title }} {% endblock %}
 
@@ -54,10 +55,13 @@
             {% endfor %}
             </form>
         {% endif %}
-
-            <h5>price: {{ variants.total_price }} Toman</h5>
       
-        {% if product.status is not None %}
+        {% if product.status != None %}
+          {% if request.user.is_special_user %}
+          <h5>price: {{ variants.price_special_user|intcomma }} Toman</h5>
+          {% else %}
+          <h5>price: {{ variants.total_price|intcomma }} Toman</h5>
+          {% endif %}
             <form method="POST" action="{% url 'cart:add' product.id %}">
               {% csrf_token %}
               <input name="select" type="hidden" value="{{ variants.id }}">
@@ -66,8 +70,14 @@
               <button type="submit" class="btn btn-outline-info">Add</button>
             </form>
         {% else %}
+          {% if request.user.is_special_user %}
+          <h5>price: {{ product.price_special_user|intcomma }} Toman</h5>
+          {% else %}
+          <h5>price: {{ product.total_price|intcomma }} Toman</h5>
+          {% endif %}
           <form method="POST" action="{% url 'cart:add' product.id %}">
             {% csrf_token %}
+            <input name="select" type="hidden" value="{{ product.id }}">
             <input name="quantity" type="number" value="1" min="1" max="{{ product.amount }}"
             required class="form-control" style="width: 17% !important;">
             <button type="submit" class="btn btn-outline-info">Add</button>

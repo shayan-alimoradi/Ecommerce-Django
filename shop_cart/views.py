@@ -18,7 +18,7 @@ def cart_detail(request):
 def add_cart(request, id):
     url = request.META.get('HTTP_REFERER')
     product = Product.objects.get(id=id)
-    if product.status is not None:
+    if product.status != None:
         var_id = request.POST.get('select')
         data = Cart.objects.filter(user_id=request.user.id, variant_id=var_id)
         if data:
@@ -34,9 +34,9 @@ def add_cart(request, id):
     
     if request.method == 'POST':
         form = CartForm(request.POST)
-        var_id = request.POST.get('select')
         if form.is_valid():
             info = form.cleaned_data['quantity']
+            var_id = request.POST.get('select')
             if check == 'yes':
                 if product.status is not None:
                     shop = Cart.objects.get(user_id=request.user.id, product_id=id, variant_id=var_id)

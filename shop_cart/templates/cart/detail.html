@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_tags %}
+{% load humanize %}
 
 {% block title %} Cart Detail {% endblock %}
 
@@ -28,9 +29,17 @@
                 <td>{{ c.product.title }}</td>
                 <td>
                 {% if product.status is not None %}
-                    {{ c.variant.total_price }}
+                  {% if request.user.is_special_user %}
+                  {{ c.variant.price_special_user }}
+                  {% else %}
+                  {{ c.variant.total_price }}
+                  {% endif %}
                 {% else %}
-                    {{ c.product.total_price }}
+                  {% if request.user.is_special_user %}
+                  {{ c.product.price_special_user }}
+                  {% else %}
+                  {{ c.product.total_price }}
+                  {% endif %}
                 {% endif %}
                 </td>   
                 <td>{{ c.variant.size_variant }}</td>
@@ -38,9 +47,17 @@
                 <td>{{ c.quantity }}</td>
                 <td>
                     {% if product.status is not None %}
-                        {% widthratio c.variant.unit_price 1 c.quantity %}
+                      {% if request.user.is_special_user %}
+                        {% widthratio c.variant.price_special_user 1 c.quantity %}
+                      {% else %}
+                        {% widthratio c.variant.total_price 1 c.quantity %}
+                      {% endif %}
                     {% else %}
-                        {% widthratio c.product.unit_price 1 c.quantity %}
+                      {% if request.user.is_special_user %}
+                        {% widthratio c.product.price_special_user 1 c.quantity %}
+                      {% else %}
+                        {% widthratio c.product.total_price 1 c.quantity %}
+                      {% endif %}
                     {% endif %}
                 </td>
                 <td><a href="{% url 'cart:remove' c.id %}">Delete</a></td>

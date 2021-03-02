@@ -8,12 +8,13 @@ from .forms import *
 class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
-    list_display = ('email', 'username', 'is_active', 'is_admin', 'is_superuser')
+    list_display = ('email', 'username', 'is_active', 'is_special_user', 'is_admin', 'is_superuser')
     list_filter = ('is_admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('is_active',)}),
         ('Permissions', {'fields': ('is_admin',)}),
+        ('Special User', {'fields': ('is_special_user',)}),
         ('Admin_Perm', {'fields': ('is_superuser',)})
     )
     add_fieldsets = (

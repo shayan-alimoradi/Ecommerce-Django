@@ -12,5 +12,11 @@
             {{ form.email|as_crispy_field }}
             <button type="submit" class="btn btn-outline-info">Update</button>
         </form>
+
+        <form method="POST" action="{% url 'order:request1' %}"><hr>
+            {% csrf_token %}
+            <p class="alert alert-info">Be a special user for Month and buy Products half the price for only 40000 Toman</p>
+            <button type="submit" class="btn btn-outline-danger">Payment</button>
+        </form>
     </div>
 {% endblock %}

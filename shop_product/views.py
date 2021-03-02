@@ -1,12 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Max, Min
 from django.views import View
 from django.db.models import Q
 from django.contrib import messages
+from urllib.parse import urlencode
 from shop_cart.forms import *
 from .models import *
 from .forms import *
+from .filters import *
 
 
 class ProductList(View):
@@ -14,9 +17,18 @@ class ProductList(View):
     
     def get(self, request, slug=None):
         products = Product.objects.filter(available=True)
+        f = ProductFilter(request.GET, queryset=products)
+        products = f.qs
+        mx = Product.objects.aggregate(unit_price=Max('unit_price'))
+        max_price = int(mx['unit_price'])
+        mn = Product.objects.aggregate(unit_price=Min('unit_price'))
+        min_price = int(mn['unit_price'])
         compare_form = CompareForm()
         paginator = Paginator(products, 3)
         page_number = request.GET.get('page')
+        data = request.GET.copy()
+        if 'page' in data:
+            del data['page']
         page_obj = paginator.get_page(page_number)
         categories = Category.objects.filter(is_sub=False)
         if slug:
@@ -29,13 +41,18 @@ class ProductList(View):
                 data = form.cleaned_data['search']
                 page_obj = products.filter(
                     Q(title__icontains=data) |
-                    Q(description__icontains=data)
+                    Q(description__icontains=data) |
+                    Q(tag__title__icontains=data)
                 )
         context = {
             'form': form,
             'products': page_obj,
             'categories': categories,
             'compare_form': compare_form,
+            'filter': f,
+            'max_price': max_price,
+            'min_price': min_price,
+            'data': data
         }
         return render(request, self.template_name, context)
 

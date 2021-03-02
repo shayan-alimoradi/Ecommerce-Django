@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.humanize',
 
     # Local App
     'shop_core.apps.ShopCoreConfig',
@@ -48,6 +49,8 @@ INSTALLED_APPS = [
     'shop_slider.apps.ShopSliderConfig',
     'shop_cart.apps.ShopCartConfig',
     'shop_order.apps.ShopOrderConfig',
+    'shop_tags.apps.ShopTagsConfig',
+    'shop_contact.apps.ShopContactConfig',
 
     # Third-Party App
     'django_jalali',
@@ -57,6 +60,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
+    'django_filters',
 ]
 
 AUTH_USER_MODEL = 'shop_account.User'

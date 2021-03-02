@@ -49,6 +49,7 @@ class Product(TimeStamp):
     category = models.ManyToManyField(Category, blank=True)
     visit_count = models.ManyToManyField(IPAddress, blank=True, related_name='visit_count')
     favourite = models.ManyToManyField(User, blank=True, related_name='fav')
+    sell = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -76,6 +77,9 @@ class Product(TimeStamp):
         return self.visit_count.count()
     get_visit_count.short_description = 'Visit Count'
 
+    def price_special_user(self):
+        return self.total_price / 2
+
 class Color(models.Model):
     title = models.CharField(max_length=177)
 
@@ -99,6 +103,7 @@ class Variant(models.Model):
     amount = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(blank=True, null=True)
     total_price = models.PositiveIntegerField()
+    sell = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -111,6 +116,9 @@ class Variant(models.Model):
             total = (self.discount * self.unit_price) / 100
             return int(self.unit_price - total)
         return self.total_price
+    
+    def price_special_user(self):
+        return self.total_price / 2
 
 
 class Comment(models.Model):
