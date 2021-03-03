@@ -34,7 +34,8 @@ class Product(TimeStamp):
     VARIANT = (
         ('Color', 'color'),
         ('Size', 'size'),
-        ('None', 'none')
+        ('None', 'none'),
+        ('Both', 'both'),
     )
     title = models.CharField(max_length=177)
     slug = models.SlugField(unique=True, blank=True)

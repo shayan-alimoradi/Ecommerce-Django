@@ -33,8 +33,27 @@
 
         <!-- Date/Time -->
         <p>{{ product.title }}</p>
+        {% if product.status == 'Both' %}
+            <form method="POST">
+            {% csrf_token %}
+            {% for v in colors %}
+                <input type="radio" name="select" value="{{ v.id }}"
+                {% if variants.id == v.id %} checked {% endif %} required
+                onchange="this.form.submit()">
+                <a>{{ v.color_variant }}</a>
+            {% endfor %}
+            </form><br>
+            <form method="POST">
+              {% csrf_token %}
+              {% for v in size %}
+                  <input type="radio" name="select" value="{{ v.id }}"
+                  {% if variants.id == v.id %} checked {% endif %} required
+                  onchange="this.form.submit()">
+                  <a>{{ v.size_variant }}</a>
+              {% endfor %}
+              </form>
 
-        {% if product.status == 'Color' %}
+        {% elif product.status == 'Color' %}
             <form method="POST">
             {% csrf_token %}
             {% for v in variant %}
@@ -64,8 +83,8 @@
           {% endif %}
             <form method="POST" action="{% url 'cart:add' product.id %}">
               {% csrf_token %}
-              <input name="select" type="hidden" value="{{ variants.id }}">
-              <input name="quantity" type="number" value="1" min="1" max="{{ variants.amount }}"
+              <input type="hidden" name="select" value="{{ variants.id }}">
+              <input type="number" name="quantity" value="1" min="1" max="{{ variants.amount }}"
               required class="form-control" style="width: 17% !important;">
               <button type="submit" class="btn btn-outline-info">Add</button>
             </form>
@@ -77,8 +96,7 @@
           {% endif %}
           <form method="POST" action="{% url 'cart:add' product.id %}">
             {% csrf_token %}
-            <input name="select" type="hidden" value="{{ product.id }}">
-            <input name="quantity" type="number" value="1" min="1" max="{{ product.amount }}"
+            <input type="number" name="quantity" value="1" min="1" max="{{ product.amount }}"
             required class="form-control" style="width: 17% !important;">
             <button type="submit" class="btn btn-outline-info">Add</button>
         </form>

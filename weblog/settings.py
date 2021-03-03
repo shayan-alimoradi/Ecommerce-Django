@@ -183,6 +183,5 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-SITE_ID = 1
+SITE_ID = 2
 LOGIN_REDIRECT_URL = 'core:index'
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3

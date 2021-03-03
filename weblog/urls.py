@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('shop_core.urls', namespace='core')),
@@ -12,3 +13,5 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('accounts/', include('allauth.urls')),
 ]
+
+handler404 = 'shop_product.views.page_not_found'

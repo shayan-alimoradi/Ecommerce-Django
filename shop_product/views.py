@@ -73,15 +73,19 @@ def product_detail(request, slug, id):
             variant = Variant.objects.filter(product_variant_id=id)
             var_id = request.POST.get('select')
             variants = Variant.objects.get(id=var_id) 
+            colors = Variant.objects.filter(product_variant_id=id, size_variant_id=variants.size_variant_id)
+            size = Variant.objects.filter(product_variant_id=id).distinct('size_variant_id')
         else:
             variant = Variant.objects.filter(product_variant_id=id)
             try:
                 variants = Variant.objects.get(id=id)
             except Variant.DoesNotExist:
                 variants = None
+            colors = Variant.objects.filter(product_variant_id=id, size_variant_id=variants.size_variant_id)
+            size = Variant.objects.filter(product_variant_id=id).distinct('size_variant_id')
         context = {'product': product, 'variant': variant, 'variants': variants,
         'form': form, 'comment_form': comment_form, 'comment': comment,
-        'is_fav': is_fav}
+        'is_fav': is_fav, 'colors': colors, 'size': size}
         return render(request, 'product/product_detail.html', context)
     else:
         context = {
@@ -125,3 +129,7 @@ def favourite_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'product/fav_list.html', {'product': page_obj})
+
+
+def page_not_found(request, exception=None):
+    return render(request, 'product/404.html')
