@@ -44,7 +44,11 @@
                 </td>   
                 <td>{{ c.variant.size_variant }}</td>
                 <td>{{ c.variant.color_variant }}</td>
-                <td>{{ c.quantity }}</td>
+                <td>
+                  <a href="{% url 'cart:rem-sin' c.id %}">remove</a>
+                  {{ c.quantity }}
+                  <a href="{% url 'cart:add-sin' c.id %}">Add</a>
+                </td>
                 <td>
                     {% if product.status is not None %}
                       {% if request.user.is_special_user %}
