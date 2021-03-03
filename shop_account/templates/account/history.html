@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+{% load humanize %}
+
+{% block title %} Purchase History {% endblock %}
+
+
+{% block content %}
+  <!-- Page Content -->
+  <div class="container">
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+      </li>
+      <li class="breadcrumb-item active">Purchase History</li>
+    </ol>
+
+    <div class="row">
+
+      <!-- Blog Entries Column -->
+      <div class="col-md-8">
+
+        <!-- Blog Post -->
+        {% for item in items %}
+        <div class="card mb-4">
+            <img class="card-img-top" src="{{ item.product.image.url }}" alt="Card image cap" style="width: 177px;">
+            <div class="card-body">
+              <h2 class="card-title"><a>{{ item.product.title }}</a></h2>
+              <p class="card-text"></p>
+              <a href="{{ item.product.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+            </div>
+            <div class="card-footer text-muted">
+              {{ item.product.unit_price|intcomma }} Toman
+            </div>
+            {% if item.product.status == 'Color' %}
+                <div class="card-footer text-muted">
+                   Color: {{ item.variant.color_variant }}
+                </div>
+            {% elif item.product.status == 'Size' %}
+                <div class="card-footer text-muted">
+                   Size: {{ item.variant.size_variant }}
+                </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+{% endblock %}

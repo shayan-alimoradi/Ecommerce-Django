@@ -15,6 +15,7 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.urls import reverse, reverse_lazy
 from django.views import View
+from shop_order.models import *
 from .forms import *
 
 
@@ -106,7 +107,7 @@ class UserProfile(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     template_name = 'account/profile.html'
     login_url = 'account:sign-in'
     model = User
-    fields = ('email', 'username')
+    form_class = ProfileForm
     success_message = 'Profile Updated Successfully'
     success_url = reverse_lazy('account:profile')
 
@@ -158,3 +159,8 @@ class ConfirmPassword(auth_views.PasswordResetConfirmView):
 
 class CompeletePassword(auth_views.PasswordResetCompleteView):
     template_name = 'account/complete.html'
+
+
+def history(request):
+    items = OrderItem.objects.filter(user_id=request.user.id)
+    return render(request, 'account/history.html', {'items': items})

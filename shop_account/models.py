@@ -5,6 +5,8 @@ from django.contrib.auth.models import (
 from django.db.models.signals import post_save
 from django_jalali.db import models as jmodels
 from django.utils import timezone
+from datetime import date
+from datetime import timedelta
 
 
 class UserManager(BaseUserManager):
@@ -85,6 +87,14 @@ class User(AbstractBaseUser):
         return False
     is_special_user.boolean = True
     is_special_user.short_description = 'special user'
+
+    def special_user_timeleft(self):
+        today = date.today()
+        next_month = date.today() + timedelta(days=30)
+        random_day = date.today() + timedelta(days=1)
+        difference = next_month - random_day
+        return difference.days
+
 
 
 class Profile(models.Model):

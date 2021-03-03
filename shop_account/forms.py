@@ -83,3 +83,13 @@ class SignUpForm(forms.Form):
             raise forms.ValidationError('Passwords must be mtach!')
         return confirm_password
     
+
+class ProfileForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['is_special'].disabled = True
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'is_special')

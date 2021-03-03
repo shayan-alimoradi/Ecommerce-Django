@@ -106,7 +106,7 @@ def send_request1(request):
         return redirect('https://www.zarinpal.com/pg/StartPay/' + str(result.Authority))
     else:
         user = request.user
-        user.special_user = datetime.now() + timedelta(minutes=17)
+        user.special_user = datetime.now() + timedelta(days=30)
         user.save()
         return HttpResponse('Error code: ' + str(result.Status))
 
