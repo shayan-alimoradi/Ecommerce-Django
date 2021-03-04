@@ -73,10 +73,13 @@ def send_request(request, price, order_id):
         items = OrderItem.objects.filter(order_id=o_id)
         for item in items:
             if item.product.status is not None:
+                product = Product.objects.get(id=item.product.id)
                 variant = Variant.objects.get(id=item.variant.id)
                 variant.amount -= item.quantity
-                variant.sell += item.quantity
+                product.amount -= item.quantity
+                product.sell += item.quantity
                 variant.save()
+                product.save()
             else:
                 product = Product.objects.get(id=item.product.id)
                 product.amount -= item.quantity

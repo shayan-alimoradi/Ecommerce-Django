@@ -20,9 +20,9 @@ class ProductList(View):
         f = ProductFilter(request.GET, queryset=products)
         products = f.qs
         mx = Product.objects.aggregate(unit_price=Max('unit_price'))
-        max_price = int(mx['unit_price'])
+        max_price = str(mx['unit_price'])
         mn = Product.objects.aggregate(unit_price=Min('unit_price'))
-        min_price = int(mn['unit_price'])
+        min_price = str(mn['unit_price'])
         compare_form = CompareForm()
         paginator = Paginator(products, 3)
         page_number = request.GET.get('page')
@@ -34,16 +34,28 @@ class ProductList(View):
         if slug:
             category = get_object_or_404(Category, slug=slug)
             page_obj = products.filter(category=category)
+            paginator = Paginator(page_obj, 3)
+            page_number = request.GET.get('page')
+            data = request.GET.copy()
+            if 'page' in data:
+                del data['page']
+            page_obj = paginator.get_page(page_number)
         form = SearchForm()
         if 'search' in request.GET:
             form = SearchForm(request.GET)
             if form.is_valid():
-                data = form.cleaned_data['search']
+                info = form.cleaned_data['search']
                 page_obj = products.filter(
-                    Q(title__icontains=data) |
-                    Q(description__icontains=data) |
-                    Q(tag__title__icontains=data)
+                    Q(title__icontains=info) |
+                    Q(description__icontains=info) |
+                    Q(tag__title__icontains=info)
                 )
+                paginator = Paginator(page_obj, 3)
+                page_number = request.GET.get('page')
+                data = request.GET.copy()
+                if 'page' in data:
+                    del data['page']
+                page_obj = paginator.get_page(page_number)
         context = {
             'form': form,
             'products': page_obj,
@@ -52,7 +64,7 @@ class ProductList(View):
             'filter': f,
             'max_price': max_price,
             'min_price': min_price,
-            'data': data
+            'data': urlencode(data)
         }
         return render(request, self.template_name, context)
 

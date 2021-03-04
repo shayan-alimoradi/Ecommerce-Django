@@ -31,6 +31,9 @@
             <div class="card-footer text-muted">
               {{ item.product.unit_price|intcomma }} Toman
             </div>
+            <div class="card-footer text-muted">
+              quantity: {{ item.quantity }} 
+            </div>
             {% if item.product.status == 'Color' %}
                 <div class="card-footer text-muted">
                    Color: {{ item.variant.color_variant }}

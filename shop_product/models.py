@@ -1,6 +1,7 @@
 from django.db import models
 from django_jalali.db import models as jmodels
 from django.utils.html import format_html
+from django.utils.text import slugify
 from django.urls import reverse
 from shop_account.models import *
 
@@ -51,9 +52,17 @@ class Product(TimeStamp):
     visit_count = models.ManyToManyField(IPAddress, blank=True, related_name='visit_count')
     favourite = models.ManyToManyField(User, blank=True, related_name='fav')
     sell = models.PositiveIntegerField(default=0)
+    brand = models.ForeignKey('Brand', on_delete=models.CASCADE, blank=True, null=True)
+    color = models.ManyToManyField('Color', blank=True)
+    size = models.ManyToManyField('Size', blank=True)
+
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
     
     @property
     def get_total_price(self):
@@ -120,6 +129,13 @@ class Variant(models.Model):
     
     def price_special_user(self):
         return self.total_price / 2
+
+
+class Brand(models.Model):
+    title = models.CharField(max_length=177)
+
+    def __str__(self):
+        return self.title
 
 
 class Comment(models.Model):
