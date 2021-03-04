@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     'django_filters',
+    'rest_framework',
 ]
 
 AUTH_USER_MODEL = 'shop_account.User'

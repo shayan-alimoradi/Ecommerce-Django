@@ -89,10 +89,7 @@ def product_detail(request, slug, id):
             size = Variant.objects.filter(product_variant_id=id).distinct('size_variant_id')
         else:
             variant = Variant.objects.filter(product_variant_id=id)
-            try:
-                variants = Variant.objects.get(id=id)
-            except Variant.DoesNotExist:
-                variants = None
+            variants = Variant.objects.get(id=id)
             colors = Variant.objects.filter(product_variant_id=id, size_variant_id=variants.size_variant_id)
             size = Variant.objects.filter(product_variant_id=id).distinct('size_variant_id')
         context = {'product': product, 'variant': variant, 'variants': variants,

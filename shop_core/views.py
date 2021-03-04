@@ -3,6 +3,7 @@ from django.db.models import Sum
 from django.views import View
 from shop_slider.models import *
 from shop_cart.models import *
+from shop_product.models import *
 
 
 class Index(View):
@@ -11,4 +12,5 @@ class Index(View):
     def get(self, request):
         slider = Slider.objects.all()
         cart_nums = Cart.objects.filter(user_id=request.user.id).aggregate(sum=Sum('quantity'))['sum']
-        return render(request, self.template_name, {'slider': slider, 'cart_nums': cart_nums})
+        latest = Product.objects.order_by('-created')[:6]
+        return render(request, self.template_name, {'slider': slider, 'cart_nums': cart_nums, 'latest': latest})

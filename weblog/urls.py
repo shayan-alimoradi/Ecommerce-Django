@@ -12,6 +12,7 @@ urlpatterns = [
     path('', include('shop_contact.urls', namespace='contact')),
     path('captcha/', include('captcha.urls')),
     path('accounts/', include('allauth.urls')),
+    path('api-auth/', include('rest_framework.urls'))
 ]
 
 handler404 = 'shop_product.views.page_not_found'
