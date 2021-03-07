@@ -148,3 +148,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.comment[:17]}'
+
+    def children(self):
+        return Comment.objects.filter(reply=self)

@@ -10,9 +10,11 @@ urlpatterns = [
     path('cart/', include('shop_cart.urls', namespace='cart')),
     path('', include('shop_order.urls', namespace='order')),
     path('', include('shop_contact.urls', namespace='contact')),
+    path('api/products/', include('shop_api.urls', namespace='api')),
+    path('api/accounts/', include('shop_account.api.urls', namespace='api-account')),
     path('captcha/', include('captcha.urls')),
     path('accounts/', include('allauth.urls')),
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
 handler404 = 'shop_product.views.page_not_found'

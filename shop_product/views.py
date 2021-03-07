@@ -76,6 +76,7 @@ def product_detail(request, slug, id):
         is_fav = True
     form = CartForm()
     comment_form = CommentForm()
+    reply_form= ReplyForm()
     comment = Comment.objects.filter(product_id=id, is_reply=False, status=True)
     ip_address = request.user.ip_address
     if ip_address not in product.visit_count.all():
@@ -94,12 +95,12 @@ def product_detail(request, slug, id):
             size = Variant.objects.filter(product_variant_id=id).distinct('size_variant_id')
         context = {'product': product, 'variant': variant, 'variants': variants,
         'form': form, 'comment_form': comment_form, 'comment': comment,
-        'is_fav': is_fav, 'colors': colors, 'size': size}
+        'is_fav': is_fav, 'colors': colors, 'size': size, 'reply_form': reply_form}
         return render(request, 'product/product_detail.html', context)
     else:
         context = {
             'product': product, 'form': form, 'comment_form': comment_form,
-            'comment': comment, 'is_fav': is_fav
+            'comment': comment, 'is_fav': is_fav, 'reply_form': reply_form
         }
         return render(request, 'product/product_detail.html', context)
 
@@ -115,6 +116,16 @@ def add_comment(request, id):
             product_id=id)
             messages.success(request, 'after we accept, your comment will show on site', 'primary')
         return redirect(url)
+
+
+@login_required(login_url='account:sign-in')
+def add_reply(request, id, comment_id):
+    if request.method == 'POST':
+        form = ReplyForm()
+        if form.is_valid():
+            data = form.cleaned_data
+            Comment.objects.create(comment=data['comment'], product_id=id, reply_id=comment_id,
+                                is_reply=True, user_id=rquest.user.id)
 
 
 @login_required(login_url='account:sign-in')

@@ -116,7 +116,20 @@
         <div class="card bg-dark text-white">
           <p class="card-header">{{ c.user.username }} - {{ c.created }}</p>
           <p class="card-body">{{ c.comment }}</p>
+        </div><br><br>
+        
+        <form method="POST" action="{% url 'product:reply' product.id c.id %}">
+          {% csrf_token %}
+          {{ reply_form.comment|as_crispy_field }}
+          <button type="submit" class="btn btn-outline-danger">Add Reply</button>
+        </form><br><br>
+
+        {% for r in c.replies.all %}
+        <div class="card bg-dark text-white">
+          <p class="card-header">{{ r.user.username }} - {{ r.created }}</p>
+          <p class="card-body">{{ r.comment }}</p>
         </div>
+        {% endfor %}
       {% endfor %}
 
       </div>

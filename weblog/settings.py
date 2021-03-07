@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'shop_order.apps.ShopOrderConfig',
     'shop_tags.apps.ShopTagsConfig',
     'shop_contact.apps.ShopContactConfig',
+    'shop_api.apps.ShopApiConfig',
 
     # Third-Party App
     'django_jalali',
@@ -186,3 +187,27 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 3
 LOGIN_REDIRECT_URL = 'core:index'
+
+# RestFramework Filter
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+
+# RestFramework Setting
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    # 'DEFAULT_PARSER_CLASSES': [
+    #     'rest_framework.parsers.JSONParser',
+    # ]
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.AllowAny',
+    # )
+}

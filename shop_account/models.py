@@ -93,7 +93,7 @@ class User(AbstractBaseUser):
         next_month = date.today() + timedelta(days=30)
         random_day = date.today() + timedelta(days=1)
         difference = next_month - random_day
-        return difference.days
+        return difference
 
 
 
