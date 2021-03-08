@@ -1,3 +1,4 @@
+from django.contrib.admin.models import ADDITION, LogEntry
 from django.contrib import admin
 from .models import *
 
@@ -25,6 +26,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Product, ProductAdmin)
+LogEntry.objects.filter(action_flag=ADDITION)
 admin.site.register(Color)
 admin.site.register(Size)
 admin.site.register(Variant)
