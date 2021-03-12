@@ -105,12 +105,8 @@ WSGI_APPLICATION = 'weblog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Weblog',
-        'USER': 'postgres',
-        'PASSWORD': 'RedBull2003',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     }
 }
 
@@ -159,8 +155,8 @@ STATICFILES_DIRS = [
 
 # Django Storages
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_ACCESS_KEY_ID = '0f92f0cd-c2f9-430f-b0b8-d592636e1e09'
+AWS_SECRET_ACCESS_KEY = '81af391c557fbec6b2ff8f9b4d8700318d052e4f824ca99cd69ce56adabdb846'
 AWS_STORAGE_BUCKET_NAME = 'halamadrid'
 AWS_S3_ENDPOINT_URL = 'https://s3.ir-thr-at1.arvanstorage.com'
 AWS_SERVICE_NAME = 's3'
@@ -211,4 +207,14 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': (
     #     'rest_framework.permissions.AllowAny',
     # )
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+    ]
 }
+
+# Redis
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+REDIS_DB = 0

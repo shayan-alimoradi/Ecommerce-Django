@@ -1,11 +1,14 @@
 from rest_framework.generics import (
     CreateAPIView, 
     ListAPIView, 
-    RetrieveUpdateDestroyAPIView,
+    UpdateAPIView,
+    RetrieveAPIView,
+    DestroyAPIView,
 )
 from rest_framework.permissions import (
     IsAuthenticated,
-    IsAuthenticatedOrReadOnly
+    IsAuthenticatedOrReadOnly,
+    IsAuthenticated,
 )
 from rest_framework.filters import (
     SearchFilter,
@@ -42,7 +45,20 @@ class ProductCreateView(CreateAPIView):
     #     serializer.save(user=self.request.user)
 
 
-class ProductRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+class ProductRetrieveView(RetrieveAPIView):
+    queryset = Product.objects.filter(available=True)
+    serializer_class = ProductSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class ProductUpdateView(UpdateAPIView):
+    queryset = Product.objects.filter(available=True)
+    serializer_class = ProductSerializer
+    lookup_fields = ('pk',)
+    permission_classes = (IsSuperUserOrStaffOrReadOnly,)
+
+
+class ProductDestroyView(DestroyAPIView):
     queryset = Product.objects.filter(available=True)
     serializer_class = ProductSerializer
     lookup_fields = ('pk',)

@@ -6,10 +6,12 @@ from django.views import View
 from django.db.models import Q
 from django.contrib import messages
 from urllib.parse import urlencode
+from django.conf import settings
 from shop_cart.forms import *
 from .models import *
 from .forms import *
 from .filters import *
+import redis
 
 
 class ProductList(View):
@@ -69,8 +71,10 @@ class ProductList(View):
         return render(request, self.template_name, context)
 
 
+# redis_con = redis.Redis(settings.REDIS_HOST, settings.REDIS_PORT, settings.REDIS_DB)
 def product_detail(request, slug, id):
     product = get_object_or_404(Product, slug=slug, id=id)
+    # redis_con.hsetnx('post_views', post.id, 0)
     is_fav = False
     if product.favourite.filter(id=request.user.id).exists():
         is_fav = True
