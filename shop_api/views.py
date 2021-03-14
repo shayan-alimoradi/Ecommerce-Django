@@ -18,6 +18,8 @@ from rest_framework.pagination import (
     PageNumberPagination,
     LimitOffsetPagination
 )
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from shop_account.models import *
 from .pagination import *
 from .permissions import *
@@ -63,6 +65,14 @@ class ProductDestroyView(DestroyAPIView):
     serializer_class = ProductSerializer
     lookup_fields = ('pk',)
     permission_classes = (IsSuperUserOrStaffOrReadOnly,)
+
+
+class RevokeToken(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request):
+        request.auth.delete()
+        return Response(status=204)
 
 
 class UserListView(ListAPIView):

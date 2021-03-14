@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken import views
 
 
 urlpatterns = [
@@ -14,7 +15,8 @@ urlpatterns = [
     path('api/accounts/', include('shop_account.api.urls', namespace='api-account')),
     path('captcha/', include('captcha.urls')),
     path('accounts/', include('allauth.urls')),
-    path('api-auth/', include('rest_framework.urls')),
+    # path('api-auth/', include('rest_framework.urls')),
+    path('api/token-auth/', views.obtain_auth_token)
 ]
 
 handler404 = 'shop_product.views.page_not_found'

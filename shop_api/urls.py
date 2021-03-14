@@ -11,4 +11,5 @@ urlpatterns = [
     path('<int:pk>/', views.ProductRetrieveView.as_view(), name='detail'),
     path('update/<int:pk>/', views.ProductUpdateView.as_view(), name='update'),
     path('delete/<int:pk>/', views.ProductDestroyView.as_view(), name='destroy'),
+    path('revoke/', views.RevokeToken.as_view(), name='revoke'),
 ]
