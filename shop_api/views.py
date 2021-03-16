@@ -67,12 +67,12 @@ class ProductDestroyView(DestroyAPIView):
     permission_classes = (IsSuperUserOrStaffOrReadOnly,)
 
 
-class RevokeToken(APIView):
-    permission_classes = (IsAuthenticated,)
+# class RevokeToken(APIView):
+#     permission_classes = (IsAuthenticated,)
 
-    def delete(self, request):
-        request.auth.delete()
-        return Response(status=204)
+#     def delete(self, request):
+#         request.auth.delete()
+#         return Response(status=204)
 
 
 class UserListView(ListAPIView):
