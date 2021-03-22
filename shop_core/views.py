@@ -14,3 +14,7 @@ class Index(View):
         cart_nums = Cart.objects.filter(user_id=request.user.id).aggregate(sum=Sum('quantity'))['sum']
         latest = Product.objects.order_by('-created')[:6]
         return render(request, self.template_name, {'slider': slider, 'cart_nums': cart_nums, 'latest': latest})
+
+
+def trigger_error(request):
+    division_by_zero = 1 / 0
