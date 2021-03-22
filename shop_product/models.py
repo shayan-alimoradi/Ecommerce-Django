@@ -4,6 +4,7 @@ from django.utils.html import format_html
 from django.utils.text import slugify
 from django.urls import reverse
 from shop_account.models import *
+from django.utils.text import slugify
 
 
 class TimeStamp(models.Model):
@@ -29,6 +30,10 @@ class Category(models.Model):
     
     def get_absolute_url(self):
         return reverse('product:category', args=[self.slug])
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 
 class Product(TimeStamp):
