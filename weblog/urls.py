@@ -5,7 +5,8 @@ from dj_rest_auth.views import PasswordResetConfirmView
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('secure-admin-panel/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('', include('shop_core.urls', namespace='core')),
     path('', include('shop_product.urls', namespace='product')),
     path('', include('shop_account.urls', namespace='account')),
