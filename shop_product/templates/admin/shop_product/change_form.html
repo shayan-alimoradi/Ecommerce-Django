@@ -1,0 +1,11 @@
+{% extends "admin/change_form.html" %}
+
+
+{% block submit_buttons_bottom %}
+    {{ block.super }}<br>
+    <div class="form-group">
+        <a href="{% url 'admin:shop_product_product_changelist' %}" class="btn btn-outline-warning">Cancel</a>
+        <input class="btn btn-outline-info" type="submit" value="Save Upper" name="_upper">
+    </div>
+
+{% endblock %}

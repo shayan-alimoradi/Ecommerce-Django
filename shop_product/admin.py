@@ -1,4 +1,5 @@
 from django.contrib.admin.models import ADDITION, LogEntry
+from django.shortcuts import redirect
 from django.contrib import admin
 from .models import *
 
@@ -11,12 +12,30 @@ class VariantInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'unit_price', 'amount',
-                    'discount', 'total_price', 'available', 'sell',
+                    'view_discount', 'total_price', 'available', 'view_sell',
                     'category_to_str', 'get_visit_count', 'image_thumbnail')
     list_filter = ('available',)
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ('title', 'description')
     inlines = (VariantInline,)
+
+    def view_discount(self, obj):
+        return obj.discount
+    view_discount.empty_value_display = '???'
+    view_discount.short_description = 'discount'
+
+    def view_sell(self, obj):
+        return obj.sell
+    view_sell.admin_order_field = 'sell'
+    view_sell.short_description = 'sell'
+
+    def response_change(self, request, obj):
+        if '_upper' in request.POST:
+            obj.title = obj.title.upper()
+            obj.save()
+            self.message_user(request, 'object saved upper case', 'success')
+            return redirect('admin:shop_product_product_changelist')
+        return super().response_change(request, obj)
 
 
 class CategoryAdmin(admin.ModelAdmin):
