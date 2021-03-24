@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.utils.translation import gettext as _
 from django.db.models import Max, Min
 from django.views import View
 from django.db.models import Q
@@ -60,7 +61,7 @@ class ProductList(View):
                 page_obj = paginator.get_page(page_number)
         context = {
             'form': form,
-            'products': page_obj,
+            _('products'): page_obj,
             'categories': categories,
             'compare_form': compare_form,
             'filter': f,
