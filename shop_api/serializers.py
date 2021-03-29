@@ -4,16 +4,17 @@ from rest_framework.serializers import (
     HyperlinkedIdentityField,
 )
 from shop_product.api.serializers import CommentSerializer
+from django.contrib.auth import get_user_model
 from shop_product.models import *
 from shop_account.models import *
 from .models import *
 
 
 class ProductSerializer(ModelSerializer):
-    url = HyperlinkedIdentityField(
-        view_name='api:detail',
-        lookup_field='pk'
-    )
+    # url = HyperlinkedIdentityField(
+    #     # view_name='api:detail',
+    #     # lookup_field='pk'
+    # )
     image = SerializerMethodField()
     class Meta:
         model = Product
@@ -29,7 +30,7 @@ class ProductSerializer(ModelSerializer):
 class UserSerializer(ModelSerializer):
     user = SerializerMethodField()
     class Meta:
-        model = User
+        model = get_user_model()
         fields = '__all__'
     
     def get_user(self, obj):

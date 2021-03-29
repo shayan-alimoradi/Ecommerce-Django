@@ -18,6 +18,7 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ('title', 'description')
     inlines = (VariantInline,)
+    # add_form_template = 'product/form_change.html'
 
     def view_discount(self, obj):
         return obj.discount
