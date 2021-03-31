@@ -6,8 +6,8 @@ app_name = 'api'
 
 
 router = routers.SimpleRouter()
-router.register('users', views.UserViewSet)
-router.register('list', views.ProductViewSet)
+router.register('users', views.UserViewSet, basename='users')
+router.register('list', views.ProductViewSet, basename='list')
 
 urlpatterns = [
     path('', include(router.urls)),

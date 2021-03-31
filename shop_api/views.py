@@ -92,6 +92,10 @@ class ProductViewSet(ModelViewSet):
     queryset = Product.objects.filter(available=True)
     serializer_class = ProductSerializer
     permission_classes = (IsSuperUserOrStaffOrReadOnly,)
+    filterset_fields = ('available',)
+    search_fields = ('title',)
+    ordering_fields = ('unit_price',)
+    # filterset_fields = ('author__username',)
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
