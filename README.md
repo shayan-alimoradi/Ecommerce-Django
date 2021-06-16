@@ -1,6 +1,6 @@
 # shop-app
 
-*This repo implement a eshop app that uses **Django** as a backend framework foundation on **Python** *
+*This repo implement a eshop app that uses **Django** as a backend framework foundation on **Python***
 
 
 #### Usage
