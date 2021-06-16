@@ -7,7 +7,7 @@
 
 **Requirements**
 
-*Python3.8*
+*Python3.8, Django3.1*
 
 1.Create a virtual environment via **virtualenv venv**.
 2.Activate venv through **source venv/bin/activate**.
