@@ -1,3 +1,4 @@
+# Standard library import
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -5,10 +6,14 @@ from django.utils import timezone
 from django.http import HttpResponse
 from django.contrib import messages
 from datetime import timedelta, datetime
+
+# Third-party import
 from suds import Client
-from shop_cart.models import *
-from .models import *
-from .forms import *
+
+# Local import
+from shop_cart.models import Cart
+from .models import Order, OrderItem
+from .forms import OrderForm, CouponForm
 
 
 @login_required(login_url='account:sign-in')
