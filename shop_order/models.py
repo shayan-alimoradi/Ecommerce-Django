@@ -1,8 +1,13 @@
+# Standard library import
 from django.db import models
-from shop_product.models import *
-from shop_account.models import *
-from django_jalali.db import models as jmodels
 from django.core.validators import MaxValueValidator
+
+# Local import
+from django_jalali.db import models as jmodels
+
+# Local import
+from shop_product.models import Product, Variant
+from shop_account.models import User
 
 
 class Order(models.Model):
