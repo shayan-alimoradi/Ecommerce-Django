@@ -1,3 +1,4 @@
+# Standard library import
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -6,13 +7,21 @@ from django.db.models import Max, Min
 from django.views import View
 from django.db.models import Q
 from django.contrib import messages
-from urllib.parse import urlencode
 from django.conf import settings
-from shop_cart.forms import *
-from .models import *
-from .forms import *
-from .filters import *
+
+# Third-party import
+from urllib.parse import urlencode
 import redis
+
+# Local import
+from shop_cart.forms import CartForm
+from .models import (
+    Product,
+    Varinat,
+    Comment,
+)
+from .forms import SearchForm, ComparForm
+from .filters import ProductFilter
 
 
 class ProductList(View):
