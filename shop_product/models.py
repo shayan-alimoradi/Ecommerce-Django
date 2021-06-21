@@ -1,10 +1,15 @@
+# Standard library import
 from django.db import models
-from django_jalali.db import models as jmodels
 from django.utils.html import format_html
 from django.utils.text import slugify
 from django.urls import reverse
-from shop_account.models import *
 from django.utils.text import slugify
+
+# Third-party import
+from django_jalali.db import models as jmodels
+
+# Local import
+from shop_account.models import User
 
 
 class TimeStamp(models.Model):
