@@ -1,12 +1,15 @@
+# Standard library import
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, Permission, _user_get_permissions
 )
 from django.db.models.signals import post_save
-from django_jalali.db import models as jmodels
 from django.utils import timezone
 from datetime import date
 from datetime import timedelta
+
+# Third-party import
+from django_jalali.db import models as jmodels
 
 
 class UserManager(BaseUserManager):
