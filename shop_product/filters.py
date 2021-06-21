@@ -1,6 +1,9 @@
 import django_filters
 from django import forms
-from .models import *
+from .models import (
+    Brand,
+    Color,
+)
 
 
 class ProductFilter(django_filters.FilterSet):
