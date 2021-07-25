@@ -204,6 +204,7 @@ dmypy.json
 # mkdocs documentation
 
 # mypy
+mydatabase
 
 # Pyre type checker
 

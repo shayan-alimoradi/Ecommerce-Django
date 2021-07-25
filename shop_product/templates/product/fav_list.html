@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %}
+{% load thumbnail %}
+{% load humanize %}
 
 {% block title %} Product List {% endblock %}
 
@@ -26,14 +28,16 @@
         <!-- Blog Post -->
         {% for p in product %}
         <div class="card mb-4">
-            <img class="card-img-top" src="{{ p.image.url }}" alt="Card image cap" style="width: 177px;">
+          {% thumbnail p.image "250x250" crop="center" as im %}
+            <img class="img-fluid rounded" src="{{ im.url }}" style="width: 177px;" alt="">
+          {% endthumbnail %}
             <div class="card-body">
               <h2 class="card-title"><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></h2>
               <p class="card-text"></p>
               <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
-              {{ p.unit_price }} Toman
+              {{ p.unit_price|intcomma }} Toman
             </div>
           </div>
         {% empty %}

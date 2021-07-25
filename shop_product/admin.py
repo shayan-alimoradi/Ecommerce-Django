@@ -18,6 +18,7 @@ class VariantInline(admin.TabularInline):
     readonly_fields = ('sell',)
 
 
+@admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         'title',
@@ -59,7 +60,6 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
-admin.site.register(Product, ProductAdmin)
 admin.site.register(Color)
 admin.site.register(Size)
 admin.site.register(Variant)
