@@ -6,13 +6,50 @@ services:
       ports:
         - '9000:5432'
       volumes:
-        - 'postgresql:/var/lib/postgres/data/'
+        - postgres_data:/var/lib/postgres/data/
       networks:
         - main
       env_file: .env
 
+    rabbitmq:
+      image: rabbitmq:latest
+      container_name: raabbitmq
+      restart: always
+      ports:
+        - '5672:5672'
+      networks:
+        - main
+    
+    celery_worker:
+      container_name: celert_worker
+      command: 'celery -A weblog worker -l info'
+      depends_on:
+        - rabbitmq
+        - app
+      image: app
+      environment: 
+        - C_FORCE_ROOT='true'
+      networks:
+        - main
+      restart: always
+    
+    app:
+      build: .
+      command: sh -c 'python manage.py migrate && python manage.py runserver 0.0.0.0:8000'
+      container_name: app
+      volumes:
+        - .:/src
+      depends_on:
+        - rabbitmq
+      ports:
+        - '8080:8000'
+      networks:
+        - main
+      restart: always
+      
+
 volumes:
-  postgresql:
+  postgres_data:
 
 networks:
   main:
