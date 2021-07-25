@@ -6,5 +6,7 @@ app_name = 'core'
 
 urlpatterns = [
     path('', views.Index.as_view(), name='index'),
-    path('sentry-debug/', views.trigger_error),
+    path('bucket-list/', views.BucketList.as_view(), name='bucket_list'),
+	path('delete-bucket/<str:key>/', views.DeleteBucket.as_view(), name='delete_bucket'),
+	path('download-bucket/<str:key>/', views.DownloadBucket.as_view(), name='download_bucket'),
 ]

@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load thumbnail %}
+{% load humanize %}
 
 {% block title %} Home {% endblock %}
 
@@ -55,7 +56,7 @@
             <h4 class="card-title">
               <a href="{{ ls.get_absolute_url }}">{{ ls.title }}</a>
             </h4>
-            <p>{{ ls.unit_price }} Toman</p>
+            <p>{{ ls.unit_price|intcomma }} Toman</p>
           </div>
         </div>
       </div>

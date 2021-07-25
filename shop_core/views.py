@@ -1,9 +1,15 @@
-from django.shortcuts import render
+# Standard library import
+from django.shortcuts import redirect, render
 from django.db.models import Sum
 from django.views import View
-from shop_slider.models import *
-from shop_cart.models import *
-from shop_product.models import *
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+
+# Local import
+from shop_slider.models import Slider
+from shop_cart.models import Cart
+from shop_product.models import Product
+from . import tasks
 
 
 class Index(View):
@@ -11,10 +17,39 @@ class Index(View):
 
     def get(self, request):
         slider = Slider.objects.all()
-        cart_nums = Cart.objects.filter(user_id=request.user.id).aggregate(sum=Sum('quantity'))['sum']
+        cart_nums = Cart.objects.filter(
+            user_id=request.user.id).aggregate(sum=Sum('quantity'))['sum']
         latest = Product.objects.order_by('-created')[:6]
-        return render(request, self.template_name, {'slider': slider, 'cart_nums': cart_nums, 'latest': latest})
+        context = {
+            'slider': slider, 
+            'cart_nums': cart_nums, 
+            'latest': latest
+        }
+        return render(request, self.template_name, context)
 
 
-def trigger_error(request):
-    division_by_zero = 1 / 0
+class BucketList(LoginRequiredMixin, View):
+    template_name = 'base/bucket.html'
+    login_url = 'account:sign-in'
+
+    def get(self, request):
+        objects = tasks.get_objects_list_tasks()
+        return render(request, self.template_name, {'objects': objects})
+
+    
+class DeleteBucket(LoginRequiredMixin, View):
+    login_url = 'account:sign-in'
+
+    def get(self, request, key):
+        tasks.delete_object_tasks.delay(key)
+        messages.success(request, 'Your demand wil be answered soon', 'success')
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class DownloadBucket(LoginRequiredMixin, View):
+    login_url = 'account:sign-in'
+
+    def get(self, request, key):
+        tasks.download_object_tasks.delay(key)
+        messages.success(request, 'Your demand wil be answered soon', 'success')
+        return redirect(request.META.get('HTTP_REFERER'))

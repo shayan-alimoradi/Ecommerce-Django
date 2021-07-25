@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+{% load size %}
+
+{% block title %} Bucket List {% endblock %}
+
+
+{% block content %}
+	<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Size</th>
+      <th scope="col">Download</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for obj in objects %}
+   	<tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ obj.Key }}</td>
+      <td>{{ obj.Size|convert }}</td>
+      <td><a href="{% url 'core:download_bucket' obj.Key %}">Download</a></td>
+      <td><a href="{% url 'core:delete_bucket' obj.Key %}">Delete</a></td>
+    </tr>
+    {% empty %}
+        <p class='alert alert-warning'>Bucket is empty</p>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
