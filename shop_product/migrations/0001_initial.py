@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Product',
             fields=[
-                ('timestamp_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='shop_product.timestamp')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=177)),
                 ('description', models.TextField()),
                 ('unit_price', models.PositiveIntegerField()),
@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
                 ('status', models.CharField(blank=True, choices=[('Color', 'color'), ('Size', 'size'), ('None', 'none')], max_length=177)),
                 ('available', models.BooleanField(default=True)),
             ],
-            bases=('shop_product.timestamp',),
+            # bases=('shop_product.timestamp',),
         ),
         migrations.CreateModel(
             name='Variant',

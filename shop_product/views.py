@@ -19,11 +19,14 @@ from .models import (
     Product,
     Variant,
     Comment,
+    Category
 )
 from .forms import (
     SearchForm, 
     CommentForm,
+    ReplyForm,
 )
+from shop_cart.forms import CompareForm
 from .filters import ProductFilter
 
 
@@ -102,12 +105,18 @@ def product_detail(request, slug, id):
         if request.method == 'POST':
             variant = Variant.objects.filter(product_variant_id=id)
             var_id = request.POST.get('select')
-            variants = Variant.objects.get(id=var_id) 
+            try:
+                variants = Variant.objects.get(id=var_id)
+            except Variant.DoesNotExist:
+                variants = Variant.objects.none()
             colors = Variant.objects.filter(product_variant_id=id, size_variant_id=variants.size_variant_id)
             size = Variant.objects.filter(product_variant_id=id).distinct('size_variant_id')
         else:
             variant = Variant.objects.filter(product_variant_id=id)
-            variants = Variant.objects.get(id=id)
+            try:
+                variants = Variant.objects.get(id=id)
+            except Variant.DoesNotExist:
+                variants = Variant.objects.none()
             colors = Variant.objects.filter(product_variant_id=id, size_variant_id=variants.size_variant_id)
             size = Variant.objects.filter(product_variant_id=id).distinct('size_variant_id')
         context = {'product': product, 'variant': variant, 'variants': variants,
@@ -123,26 +132,34 @@ def product_detail(request, slug, id):
 
 
 @login_required(login_url='account:sign-in')
-def add_comment(request, id):
+def add_comment(request, product_id):
     url = request.META.get('HTTP_REFERER')
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            Comment.objects.create(user_id=request.user.id, comment=data['comment'],
-            product_id=id)
+            Comment.objects.create(
+                user_id=request.user.id, 
+                comment=data['comment'],
+                product_id=product_id,
+            )
             messages.success(request, 'after we accept, your comment will show on site', 'primary')
         return redirect(url)
 
 
 @login_required(login_url='account:sign-in')
-def add_reply(request, id, comment_id):
+def add_reply(request, product_id, comment_id):
     if request.method == 'POST':
         form = ReplyForm()
         if form.is_valid():
             data = form.cleaned_data
-            Comment.objects.create(comment=data['comment'], product_id=id, reply_id=comment_id,
-                                is_reply=True, user_id=rquest.user.id)
+            Comment.objects.create(
+                comment=data['comment'],
+                product_id=product_id,
+                reply_id=comment_id,
+                is_reply=True,
+                user_id=request.user.id)
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required(login_url='account:sign-in')

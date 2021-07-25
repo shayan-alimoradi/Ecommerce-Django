@@ -89,11 +89,6 @@
               <button type="submit" class="btn btn-outline-info">Add</button>
             </form>
         {% else %}
-          {% if request.user.is_special_user %}
-          <h5>price: {{ product.price_special_user|intcomma }} Toman</h5>
-          {% else %}
-          <h5>price: {{ product.total_price|intcomma }} Toman</h5>
-          {% endif %}
           <form method="POST" action="{% url 'cart:add' product.id %}">
             {% csrf_token %}
             <input type="number" name="quantity" value="1" min="1" max="{{ product.amount }}"
@@ -109,7 +104,7 @@
         <form method="POST" action="{% url 'product:comment' product.id %}">
           {% csrf_token %}
           {{ comment_form.comment|as_crispy_field }}
-          <button type="submit" class="btn btn-outline-info">Add Comment</button>
+          <button type="submit" class="btn btn-outline-info">Submit</button>
         </form><br><br>
 
       {% for c in comment %}
@@ -121,7 +116,7 @@
         <form method="POST" action="{% url 'product:reply' product.id c.id %}">
           {% csrf_token %}
           {{ reply_form.comment|as_crispy_field }}
-          <button type="submit" class="btn btn-outline-danger">Add Reply</button>
+          <button type="submit" class="btn btn-outline-danger">Submit</button>
         </form><br><br>
 
         {% for r in c.replies.all %}

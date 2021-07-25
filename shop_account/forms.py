@@ -96,6 +96,8 @@ class ProfileForm(forms.ModelForm):
             'username', 
             'email', 
             'phone_number',
+            'first_name',
+            'last_name',
             'address',
             'city',
             'country',

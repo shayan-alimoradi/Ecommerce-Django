@@ -8,7 +8,6 @@ from django.conf import settings
 
 # Third-party import
 from django_jalali.db import models as jmodels
-from suds import null
 
 
 class TimeStamp(models.Model):
@@ -48,7 +47,7 @@ class Category(TimeStamp):
 
 
 class Product(TimeStamp):
-    class VARIANT(models.TextChoices):
+    class STATUS(models.TextChoices):
         COLOR = 'c', 'color'
         SIZE = 's', 'size'
         NONE = 'n', 'none'
@@ -59,9 +58,9 @@ class Product(TimeStamp):
     unit_price = models.PositiveIntegerField()
     amount = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(blank=True, null=True)
-    total_price = models.PositiveIntegerField()
+    total_price = models.PositiveIntegerField(null=True, blank=True)
     image = models.ImageField(default='1.jpg')
-    status = models.CharField(max_length=15, blank=True, choices=VARIANT.choices)
+    status = models.CharField(max_length=15, blank=True, choices=STATUS.choices)
     available = models.BooleanField(default=True)
     category = models.ManyToManyField(Category, blank=True)
     visit_count = models.ManyToManyField(IPAddress, blank=True, related_name='visit_count')
@@ -80,6 +79,7 @@ class Product(TimeStamp):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
+        self.total_price = self.get_total_price
         super().save(*args, **kwargs)
     
     @property
@@ -122,13 +122,13 @@ class Size(TimeStamp):
 
 class Variant(TimeStamp):
     title = models.CharField(max_length=177)
-    product_variant = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_variant = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     size_variant = models.ForeignKey(Size, on_delete=models.CASCADE, null=True, blank=True)
     color_variant = models.ForeignKey(Color, on_delete=models.CASCADE, null=True, blank=True)
     unit_price = models.PositiveIntegerField()
     amount = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(blank=True, null=True)
-    total_price = models.PositiveIntegerField()
+    total_price = models.PositiveIntegerField(null=True, blank=True)
     sell = models.PositiveIntegerField(default=0)
 
     class Meta(TimeStamp.Meta):
@@ -146,6 +146,10 @@ class Variant(TimeStamp):
             return int(self.unit_price - total)
         return self.total_price
     
+    def save(self, *args, **kwargs):
+        self.total_price = self.get_total_price
+        super().save(*args, **kwargs)
+    
     def price_special_user(self):
         return self.total_price / 2
 
@@ -159,17 +163,15 @@ class Brand(TimeStamp):
 
 class Comment(TimeStamp):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     comment = models.TextField()
     status = models.BooleanField(default=False)
-    reply = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+    reply = models.ForeignKey('self', on_delete=models.CASCADE, null=True, 
+    blank=True, related_name='replies')
     is_reply = models.BooleanField(default=False)
 
-    class Meta(TimeStamp.Meta):
-        ordering = ('-created',)
-
     def __str__(self):
-        return f'{self.user} - {self.comment[:17]}'
+        return f'{self.user.username} - {self.comment[:17]}'
 
     def children(self):
         return Comment.objects.filter(reply=self)
