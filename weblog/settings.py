@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'admin_honeypot',
+    'sorl.thumbnail',
 ]
 
 AUTH_USER_MODEL = 'shop_account.User'

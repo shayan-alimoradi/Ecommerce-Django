@@ -1,6 +1,7 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_tags %}
 {% load humanize %}
+{% load thumbnail %}
 
 {% block title %} {{ product.title }} {% endblock %}
 
@@ -27,7 +28,9 @@
       <div class="col-lg-8">
 
         <!-- Preview Image -->
-        <img class="img-fluid rounded" src="{{ product.image.url }}" style="width: 177px;" alt="">
+        {% thumbnail product.image "250x250" crop="center" as im %}
+          <img class="img-fluid rounded" src="{{ im.url }}" style="width: 177px;" alt="">
+        {% endthumbnail %}
 
         <hr>
 
@@ -105,7 +108,7 @@
           {% csrf_token %}
           {{ comment_form.comment|as_crispy_field }}
           <button type="submit" class="btn btn-outline-info">Submit</button>
-        </form><br><br>
+        </form><hr>
 
       {% for c in comment %}
         <div class="card bg-dark text-white">

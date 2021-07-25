@@ -150,7 +150,7 @@ def add_comment(request, product_id):
 @login_required(login_url='account:sign-in')
 def add_reply(request, product_id, comment_id):
     if request.method == 'POST':
-        form = ReplyForm()
+        form = ReplyForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             Comment.objects.create(
@@ -158,7 +158,8 @@ def add_reply(request, product_id, comment_id):
                 product_id=product_id,
                 reply_id=comment_id,
                 is_reply=True,
-                user_id=request.user.id)
+                user_id=request.user.id,
+            )
         return redirect(request.META.get('HTTP_REFERER'))
 
 
