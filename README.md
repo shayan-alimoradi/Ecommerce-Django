@@ -18,8 +18,8 @@
       * [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
     6. Install rabbitmq from:
       * [https://www.rabbitmq.com/download.html](https://www.rabbitmq.com/download.html)
-    4. install all of the requirements package via command **pip install -r requirements.txt**.
-    5. Run the following command to get the database ready to go:
+    7. install all of the requirements package via command **pip install -r requirements.txt**.
+    8. Run the following command to get the database ready to go:
 
         python manage.py migrate
 ```
