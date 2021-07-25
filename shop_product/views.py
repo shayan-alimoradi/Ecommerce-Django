@@ -17,10 +17,13 @@ import redis
 from shop_cart.forms import CartForm
 from .models import (
     Product,
-    Varinat,
+    Variant,
     Comment,
 )
-from .forms import SearchForm, ComparForm
+from .forms import (
+    SearchForm, 
+    CommentForm,
+)
 from .filters import ProductFilter
 
 

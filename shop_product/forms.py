@@ -1,5 +1,5 @@
 from django import forms
-from .models import *
+from .models import Comment
 
 
 class SearchForm(forms.Form):

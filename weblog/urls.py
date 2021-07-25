@@ -1,6 +1,8 @@
+# Standard library import
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.authtoken import views
+
+# 3rd-party impoart
 from dj_rest_auth.views import PasswordResetConfirmView
 from rest_framework_simplejwt import views as jwt_views
 
@@ -16,8 +18,6 @@ urlpatterns = [
     path('', include('shop_contact.urls', namespace='contact')),
     path('captcha/', include('captcha.urls')),
     path('accounts/', include('allauth.urls')),
-    path('api/products/', include('shop_api.urls', namespace='api')),
-    path('api/accounts/', include('shop_account.api.urls', namespace='api-account')),
     # path('api-auth/', include('rest_framework.urls')),
     # path('api/token-auth/', views.obtain_auth_token),
     path('api/rest-auth/', include('dj_rest_auth.urls')),

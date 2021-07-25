@@ -9,11 +9,11 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import views as auth_views
-from django.http import HttpResponse
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.urls import reverse, reverse_lazy
 from django.views import View
+from django.contrib.auth import get_user_model
 
 # Local import
 from shop_order.models import OrderItem
@@ -23,6 +23,8 @@ from .forms import (
     SignUpForm,
     ProfileForm,
 )
+
+User = get_user_model()
 
 
 class SignIn(View):
