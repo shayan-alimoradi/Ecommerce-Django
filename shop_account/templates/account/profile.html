@@ -10,20 +10,18 @@
             {% csrf_token %}
             {{ form.username|as_crispy_field }}
             {{ form.email|as_crispy_field }}
-            <strong>
-            {% if request.user.is_special_user %}
-                <p class="badge badge-danger">Special User*</p><br>
-                Time Left: {{ request.user.special_user_timeleft }}<br>
-            {% endif %}
-            </strong>
+            {{ form.phone_number|as_crispy_field }}
+            {{ form.first_name|as_crispy_field }}
+            {{ form.last_name|as_crispy_field }}
+            {{ form.address|as_crispy_field }}
+            {{ form.city|as_crispy_field }}
+            {{ form.country|as_crispy_field }}
+            {{ form.bio|as_crispy_field }}
+            {{ form.birthday|as_crispy_field }}
+            {{ form.telegram_id|as_crispy_field }}
+            {{ form.instagram_id|as_crispy_field }}
+            {{ form.website|as_crispy_field }}
             <button type="submit" class="btn btn-outline-info">Update</button>
-        </form>
-
-        {% if not request.user.is_special_user %}
-        <form method="POST" action="{% url 'order:request1' %}"><hr>
-            {% csrf_token %}
-            <p class="alert alert-info">Be a special user for Month and buy Products half the price for only 40000 Toman</p>
-            <button type="submit" class="btn btn-outline-danger">Payment</button>
         </form>
         {% endif %}
     </div>

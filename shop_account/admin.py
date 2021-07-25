@@ -5,16 +5,35 @@ from .models import User, Profile
 from .forms import UserChangeForm, UserCreationForm
 
 
+@admin.register(User)
 class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
-    list_display = ('email', 'username', 'is_active', 'is_special_user', 'is_admin', 'is_superuser')
+    list_display = (
+        'email', 
+        'username', 
+        'is_active', 
+        'is_admin', 
+        'is_superuser'
+    )
     list_filter = ('is_admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('is_active',)}),
         ('Permissions', {'fields': ('is_admin',)}),
-        ('Admin_Perm', {'fields': ('is_superuser',)})
+        ('Admin_Perm', {'fields': ('is_superuser',)}),
+        ('Personal Info', {'fields': (
+            'first_name',
+            'last_name',
+            'phone_number',
+            'address',
+            'city',
+            'country',
+            'birthday',
+            'telegram_id',
+            'instagram_id',
+            'website',
+        )})
     )
     add_fieldsets = (
         (None, {
@@ -27,6 +46,5 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-admin.site.register(User, UserAdmin)
 admin.site.register(Profile)
 admin.site.unregister(Group)

@@ -4,17 +4,19 @@ from django.utils.html import format_html
 from django.utils.text import slugify
 from django.urls import reverse
 from django.utils.text import slugify
+from django.conf import settings
 
 # Third-party import
 from django_jalali.db import models as jmodels
-
-# Local import
-from shop_account.models import User
+from suds import null
 
 
 class TimeStamp(models.Model):
-    created = jmodels.jDateTimeField(auto_now_add=True)
-    updated = jmodels.jDateTimeField(auto_now=True)
+    created = jmodels.jDateTimeField(auto_now_add=True, null=True)
+    updated = jmodels.jDateTimeField(auto_now=True, null=True)
+
+    class Meta:
+        abstract = True
 
 
 class IPAddress(models.Model):
@@ -24,11 +26,15 @@ class IPAddress(models.Model):
         return self.ip_address
 
 
-class Category(models.Model):
+class Category(TimeStamp):
     sub_cat = models.ForeignKey('self', on_delete=models.CASCADE, related_name='s_category', blank=True, null=True)
     is_sub = models.BooleanField(default=False)
     title = models.CharField(max_length=177)
     slug = models.SlugField(unique=True)
+
+    class Meta(TimeStamp.Meta):
+        ordering = ('-created',)
+        verbose_name_plural = 'Categories'
 
     def __str__(self):
         return f'{self.title}'
@@ -42,12 +48,11 @@ class Category(models.Model):
 
 
 class Product(TimeStamp):
-    VARIANT = (
-        ('Color', 'color'),
-        ('Size', 'size'),
-        ('None', 'none'),
-        ('Both', 'both'),
-    )
+    class VARIANT(models.TextChoices):
+        COLOR = 'c', 'color'
+        SIZE = 's', 'size'
+        NONE = 'n', 'none'
+        BOTH = 'b', 'both'
     title = models.CharField(max_length=177)
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
@@ -56,16 +61,19 @@ class Product(TimeStamp):
     discount = models.PositiveIntegerField(blank=True, null=True)
     total_price = models.PositiveIntegerField()
     image = models.ImageField(default='1.jpg')
-    status = models.CharField(max_length=177, blank=True, choices=VARIANT)
+    status = models.CharField(max_length=15, blank=True, choices=VARIANT.choices)
     available = models.BooleanField(default=True)
     category = models.ManyToManyField(Category, blank=True)
     visit_count = models.ManyToManyField(IPAddress, blank=True, related_name='visit_count')
-    favourite = models.ManyToManyField(User, blank=True, related_name='fav')
+    favourite = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,
+     related_name='fav')
     sell = models.PositiveIntegerField(default=0)
     brand = models.ForeignKey('Brand', on_delete=models.CASCADE, blank=True, null=True)
     color = models.ManyToManyField('Color', blank=True)
     size = models.ManyToManyField('Size', blank=True)
 
+    class Meta(TimeStamp.Meta):
+        ordering = ('-created',)
 
     def __str__(self):
         return self.title
@@ -96,25 +104,23 @@ class Product(TimeStamp):
     def get_visit_count(self):
         return self.visit_count.count()
     get_visit_count.short_description = 'Visit Count'
+    
 
-    def price_special_user(self):
-        return self.total_price / 2
-
-class Color(models.Model):
+class Color(TimeStamp):
     title = models.CharField(max_length=177)
 
     def __str__(self):
         return self.title
 
 
-class Size(models.Model):
+class Size(TimeStamp):
     title = models.CharField(max_length=177)
 
     def __str__(self):
         return self.title
 
 
-class Variant(models.Model):
+class Variant(TimeStamp):
     title = models.CharField(max_length=177)
     product_variant = models.ForeignKey(Product, on_delete=models.CASCADE)
     size_variant = models.ForeignKey(Size, on_delete=models.CASCADE, null=True, blank=True)
@@ -124,6 +130,9 @@ class Variant(models.Model):
     discount = models.PositiveIntegerField(blank=True, null=True)
     total_price = models.PositiveIntegerField()
     sell = models.PositiveIntegerField(default=0)
+
+    class Meta(TimeStamp.Meta):
+        ordering = ('-created',)
 
     def __str__(self):
         return self.title
@@ -141,20 +150,23 @@ class Variant(models.Model):
         return self.total_price / 2
 
 
-class Brand(models.Model):
+class Brand(TimeStamp):
     title = models.CharField(max_length=177)
 
     def __str__(self):
         return self.title
 
 
-class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+class Comment(TimeStamp):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
     comment = models.TextField()
     status = models.BooleanField(default=False)
     reply = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
     is_reply = models.BooleanField(default=False)
+
+    class Meta(TimeStamp.Meta):
+        ordering = ('-created',)
 
     def __str__(self):
         return f'{self.user} - {self.comment[:17]}'

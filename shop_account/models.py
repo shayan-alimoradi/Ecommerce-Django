@@ -1,15 +1,18 @@
 # Standard library import
 from django.db import models
 from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser, Permission, _user_get_permissions
+    BaseUserManager, 
+    AbstractBaseUser, 
+    Permission, 
+    _user_get_permissions,
 )
 from django.db.models.signals import post_save
-from django.utils import timezone
-from datetime import date
-from datetime import timedelta
 
 # Third-party import
 from django_jalali.db import models as jmodels
+
+# Local import
+from .validators import validate_phone_number
 
 
 class UserManager(BaseUserManager):
@@ -47,14 +50,23 @@ class User(AbstractBaseUser):
         unique=True,
     )
     username = models.CharField(max_length=177)
+    phone_number = models.CharField(max_length=11, blank=True,
+    validators=[validate_phone_number])
     first_name = models.CharField(max_length=177, null=True, blank=True)
     last_name = models.CharField(max_length=177, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    is_special = models.BooleanField(default=False)
-    special_user = jmodels.jDateTimeField(default=timezone.now)
     permission = models.ManyToManyField(Permission, related_name='users')
+    address = models.TextField(blank=True)
+    city = models.CharField(max_length=70, blank=True)
+    country = models.CharField(max_length=70, blank=True)
+    bio = models.TextField(blank=True)
+    birthday = models.DateTimeField(null=True, blank=True)
+    last_login = models.DateTimeField(auto_now=True, blank=True, null=True)
+    telegram_id = models.CharField(max_length=60, blank=True)
+    instagram_id = models.CharField(max_length=60, blank=True)
+    website = models.URLField(max_length=255, blank=True)
 
     objects = UserManager()
 
@@ -86,24 +98,9 @@ class User(AbstractBaseUser):
     def get_all_permissions(self, obj=None):
         return _user_get_permissions(self, obj, 'all')
 
-    def is_special_user(self):
-        if self.special_user > timezone.now():
-            return True
-        return False
-    is_special_user.boolean = True
-    is_special_user.short_description = 'special user'
-
-    def special_user_timeleft(self):
-        today = date.today()
-        next_month = date.today() + timedelta(days=30)
-        random_day = date.today() + timedelta(days=1)
-        difference = next_month - random_day
-        return difference
-
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=11)
 
     def __str__(self):
         return self.user.username

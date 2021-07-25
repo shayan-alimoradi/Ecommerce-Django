@@ -87,8 +87,21 @@ class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['is_special'].disabled = True
+        self.fields['username'].disabled = True
+        self.fields['email'].disabled = True
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'is_special')
+        fields = (
+            'username', 
+            'email', 
+            'phone_number',
+            'address',
+            'city',
+            'country',
+            'bio',
+            'birthday',
+            'telegram_id',
+            'instagram_id',
+            'website',
+        )

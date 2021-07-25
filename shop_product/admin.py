@@ -1,7 +1,15 @@
 from django.contrib.admin.models import ADDITION, LogEntry
 from django.shortcuts import redirect
 from django.contrib import admin
-from .models import *
+from .models import (
+    Product,
+    Variant,
+    Category,
+    Size,
+    Comment,
+    Color,
+    Brand,
+)
 
 
 class VariantInline(admin.TabularInline):
@@ -11,9 +19,15 @@ class VariantInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'unit_price', 'amount',
-                    'view_discount', 'total_price', 'available', 'view_sell',
-                    'category_to_str', 'get_visit_count', 'image_thumbnail')
+    list_display = (
+        'title',
+        'unit_price',
+        'available', 
+        'view_sell',
+        'category_to_str', 
+        'get_visit_count', 
+        'image_thumbnail'
+    )
     list_filter = ('available',)
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ('title', 'description')
@@ -46,7 +60,6 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Product, ProductAdmin)
-LogEntry.objects.filter(action_flag=ADDITION)
 admin.site.register(Color)
 admin.site.register(Size)
 admin.site.register(Variant)

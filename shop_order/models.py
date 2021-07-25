@@ -1,17 +1,17 @@
 # Standard library import
 from django.db import models
 from django.core.validators import MaxValueValidator
+from django.conf import settings
 
 # Local import
 from django_jalali.db import models as jmodels
 
 # Local import
 from shop_product.models import Product, Variant
-from shop_account.models import User
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     address = models.TextField()
     paid = models.BooleanField(default=False)
     created = jmodels.jDateTimeField(auto_now_add=True)
@@ -30,7 +30,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_item')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     variant = models.ForeignKey(Variant, on_delete=models.CASCADE, null=True, blank=True)

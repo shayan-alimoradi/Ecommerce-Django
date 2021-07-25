@@ -5,14 +5,17 @@ from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.http import HttpResponse
 from django.contrib import messages
-from datetime import timedelta, datetime
 
 # Third-party import
 from suds import Client
 
 # Local import
+from shop_product.models import (
+    Product,
+    Variant
+)
 from shop_cart.models import Cart
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Coupon
 from .forms import OrderForm, CouponForm
 
 
@@ -95,31 +98,6 @@ def send_request(request, price, order_id):
 
 
 def verify(request):
-    if request.GET.get('Status') == 'OK':
-        result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], amount)
-        if result.Status == 100:
-            return HttpResponse('Transaction success.\nRefID: ' + str(result.RefID))
-        elif result.Status == 101:
-            return HttpResponse('Transaction submitted : ' + str(result.Status))
-        else:
-            return HttpResponse('Transaction failed.\nStatus: ' + str(result.Status))
-    else:
-        return HttpResponse('Transaction failed or canceled by user')
-
-
-def send_request1(request):
-    amount = 40000
-    result = client.service.PaymentRequest(MERCHANT, amount, description, request.user.email, mobile, CallbackURL)
-    if result.Status == 100:
-        return redirect('https://www.zarinpal.com/pg/StartPay/' + str(result.Authority))
-    else:
-        user = request.user
-        user.special_user = datetime.now() + timedelta(days=30)
-        user.save()
-        return HttpResponse('Error code: ' + str(result.Status))
-
-
-def verify1(request):
     if request.GET.get('Status') == 'OK':
         result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], amount)
         if result.Status == 100:
