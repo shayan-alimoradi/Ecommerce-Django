@@ -1,0 +1,9 @@
+[
+    {
+        "model": "shop_product.Size",
+        "pk": 1,
+        "fields": {
+            "title": "M"
+        }
+    }
+]

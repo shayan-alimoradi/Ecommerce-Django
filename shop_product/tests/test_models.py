@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from shop_product.models import Product
+from shop_product.models import Product, Size
 
 
 class ProductModelTest(TestCase):
