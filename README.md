@@ -24,8 +24,6 @@
         python manage.py migrate
 ```
 
-*Before you run the project load data from sizeModelData.json with **python manage.py loaddata fixtures/sizeModelData.json***
-
 *Now you can run the project with **python manage.py runserver** and this site will be available on localhost://8000*
 
 - - -
