@@ -8,7 +8,7 @@
     <h3>Total Price: {{ order.get_total_price }}</h3><br>
 
     <div class="col-4">
-        <form method="POST" action="{% url 'order:coupon' order.id %}">
+        <form method="POST" action="{% url 'order:coupon' order.id %}" novalidate>
             {% csrf_token %}
             {{ form.code|as_crispy_field }}
             <button type="submit" class="btn btn-outline-info">Confirm Discount</button>

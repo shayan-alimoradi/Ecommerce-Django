@@ -95,7 +95,7 @@ def send_request(request, price, order_id):
                 product.amount -= item.quantity
                 product.sell += item.quantity
                 product.save()
-            cart = Cart.objects.filter(user_id=request.user.id).delete()
+            Cart.objects.filter(user_id=request.user.id).delete()
         return HttpResponse('Error code: ' + str(result.Status))
 
 

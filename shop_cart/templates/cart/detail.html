@@ -57,7 +57,7 @@
           </table>
 
           {% if cart|length > 0 %}
-          <form method="POST" action="{% url 'order:create' %}">
+          <form method="POST" action="{% url 'order:create' %}" novalidate>
             {% csrf_token %}
             {{ form.address|as_crispy_field }}
             <button type="submit" class="btn btn-outline-primary">Confirm</button>

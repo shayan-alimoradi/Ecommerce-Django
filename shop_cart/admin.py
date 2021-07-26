@@ -1,14 +1,15 @@
 from django.contrib import admin
-from .models import *
+
+from .models import Cart, Compare
 
 
+@admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('user', 'product', 'variant', 'quantity')
+    list_display = ('__str__', 'variant', 'quantity')
+    search_fields = ('user', 'product')
 
 
+@admin.register(Compare)
 class CompareAdmin(admin.ModelAdmin):
     list_display = ('product', 'user', 'session_key')
-
-
-admin.site.register(Cart, CartAdmin)
-admin.site.register(Compare, CompareAdmin)
+    search_fields = ('user', 'product')

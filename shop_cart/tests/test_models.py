@@ -42,12 +42,12 @@ class CartModelTest(TestCase):
         expected_obj_name = f'{self.cart.product.title}'
         self.assertEqual(expected_obj_name, 'lamborghini')
 
-    def test_product_content(self):
+    def test_variant_content(self):
         self.cart = Cart.objects.get(id=1)
         expected_obj_name = f'{self.cart.variant.title}'
         self.assertEqual(expected_obj_name, 'lamborghini black')
     
-    def test_product_content(self):
+    def test_quantity_content(self):
         self.cart = Cart.objects.get(id=1)
         expected_obj_name = f'{self.cart.quantity}'
         self.assertEqual(expected_obj_name, '7')

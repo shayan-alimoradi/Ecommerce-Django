@@ -7,6 +7,9 @@ class CartForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.fields['quantity'].required = True
+        self.fields['quantity'].error_messages.update({
+            'required': 'This field is required'
+        })
 
     class Meta:
         model = Cart

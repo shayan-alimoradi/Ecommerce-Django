@@ -11,9 +11,18 @@ class TestView(TestCase):
     def test_cart_detail(self):
         response = self.client.get(reverse('cart:detail'))
         self.assertEqual(response.status_code, 302)
-        self.assertTemplateUsed(response, 'cart/detail.html')
     
-    def test_add_cart(self):
+    def test_add_cart_POST_valid(self):
+        response = self.client.post(reverse('cart:add', args=[1]), data={
+            'quantity': 7
+        })
+        self.assertEqual(response.status_code, 302)
+    
+    def test_add_cart_POST_invalid(self):
+        self.client.login(email='test@email.com', password='test')
         response = self.client.post(reverse('cart:add', args=[1]))
-        self.assertEqual(response.status_code, 403)
-        self.failUnless(response.context['form'], CartForm)
+        self.assertEqual(response.status_code, 302)
+        # self.failIf(response.context['form'].is_valid())
+        # self.assertFormError(response, 'form', field='quantity', errors=[
+        #     'This field is required'
+        # ])
