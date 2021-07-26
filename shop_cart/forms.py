@@ -1,8 +1,13 @@
 from django import forms
-from .models import *
+from .models import Compare, Cart
 
 
 class CartForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['quantity'].required = True
+
     class Meta:
         model = Cart
         fields = ('quantity',)

@@ -7,6 +7,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import views as auth_views
 from django.contrib import messages
@@ -88,7 +89,7 @@ class SignUp(View):
             )
             email.send(fail_silently=False)
             messages.info(request, 'Please confirm your email address to complete the registration')
-            return redirect('account:sign-in')
+            return redirect('account:sign_in')
         return render(request, 'account/sign_up.html', {'form': form})
 
 
@@ -99,7 +100,7 @@ class ActiveEmail(View):
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
-            return redirect('account:sign-in')
+            return redirect('account:sign_in')
         else:
             messages.error(request, 'Activation link is invalid!', 'danger')
 
@@ -113,7 +114,7 @@ class Logout(View):
 
 class UserProfile(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     template_name = 'account/profile.html'
-    login_url = 'account:sign-in'
+    login_url = 'account:sign_in'
     model = User
     form_class = ProfileForm
     success_message = 'Profile Updated Successfully'
@@ -124,7 +125,7 @@ class UserProfile(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 
 
 class ChangePassword(LoginRequiredMixin, View):
-    login_url = 'account:sign-in'
+    login_url = 'account:sign_in'
     template_name = 'account/change_pass.html'
 
     def get(self, request):
@@ -144,7 +145,7 @@ class ChangePassword(LoginRequiredMixin, View):
 
 class UserPanel(LoginRequiredMixin, View):
     template_name = 'account/user_panel.html'
-    login_url = 'account:sign-in'
+    login_url = 'account:sign_in'
 
     def get(self, request):
         return render(request, self.template_name)
@@ -169,6 +170,7 @@ class CompeletePassword(auth_views.PasswordResetCompleteView):
     template_name = 'account/complete.html'
 
 
+@login_required(login_url='account:sign_in')
 def history(request):
     items = OrderItem.objects.filter(user_id=request.user.id)
     return render(request, 'account/history.html', {'items': items})

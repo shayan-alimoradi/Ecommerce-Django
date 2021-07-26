@@ -19,7 +19,7 @@ from .models import Order, OrderItem, Coupon
 from .forms import OrderForm, CouponForm
 
 
-@login_required(login_url='account:sign-in')
+@login_required(login_url='account:sign_in')
 def order_detail(request, id):
     order = Order.objects.get(id=id)
     form = CouponForm()
@@ -27,7 +27,7 @@ def order_detail(request, id):
 
 
 @require_POST
-@login_required(login_url='account:sign-in')
+@login_required(login_url='account:sign_in')
 def create_order(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -42,6 +42,7 @@ def create_order(request):
         return redirect('order:detail', order.id)
 
 
+@login_required(login_url='account:sign_in')
 def coupon_order(request, id):
     url = request.META.get('HTTP_REFERER')
     if request.method == 'POST':
@@ -67,6 +68,7 @@ mobile = '09123456789'  # Optional
 CallbackURL = 'http://localhost:8000/order/verify/' # Important: need to edit for realy server.
 
 
+@login_required(login_url='account:sign_in')
 def send_request(request, price, order_id):
     global amount, o_id
     amount = price
@@ -97,14 +99,15 @@ def send_request(request, price, order_id):
         return HttpResponse('Error code: ' + str(result.Status))
 
 
+@login_required(login_url='account:sign_in')
 def verify(request):
     if request.GET.get('Status') == 'OK':
         result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], amount)
         if result.Status == 100:
-            return HttpResponse('Transaction success.\nRefID: ' + str(result.RefID))
+            return HttpResponse('Transaction success.')
         elif result.Status == 101:
-            return HttpResponse('Transaction submitted : ' + str(result.Status))
+            return HttpResponse('Transaction submitted')
         else:
-            return HttpResponse('Transaction failed.\nStatus: ' + str(result.Status))
+            return HttpResponse('Transaction failed.')
     else:
         return HttpResponse('Transaction failed or canceled by user')

@@ -29,39 +29,23 @@
                 <td>{{ c.product.title }}</td>
                 <td>
                 {% if product.status is not None %}
-                  {% if request.user.is_special_user %}
-                  {{ c.variant.price_special_user }}
-                  {% else %}
                   {{ c.variant.total_price }}
-                  {% endif %}
                 {% else %}
-                  {% if request.user.is_special_user %}
-                  {{ c.product.price_special_user }}
-                  {% else %}
                   {{ c.product.total_price }}
-                  {% endif %}
                 {% endif %}
                 </td>   
                 <td>{{ c.variant.size_variant }}</td>
                 <td>{{ c.variant.color_variant }}</td>
                 <td>
-                  <a href="{% url 'cart:rem-sin' c.id %}">remove</a>
+                  <a href="{% url 'cart:rem_sin' c.id %}">remove</a>
                   {{ c.quantity }}
-                  <a href="{% url 'cart:add-sin' c.id %}">Add</a>
+                  <a href="{% url 'cart:add_sin' c.id %}">Add</a>
                 </td>
                 <td>
                     {% if product.status is not None %}
-                      {% if request.user.is_special_user %}
-                        {% widthratio c.variant.price_special_user 1 c.quantity %}
-                      {% else %}
                         {% widthratio c.variant.total_price 1 c.quantity %}
-                      {% endif %}
                     {% else %}
-                      {% if request.user.is_special_user %}
-                        {% widthratio c.product.price_special_user 1 c.quantity %}
-                      {% else %}
                         {% widthratio c.product.total_price 1 c.quantity %}
-                      {% endif %}
                     {% endif %}
                 </td>
                 <td><a href="{% url 'cart:remove' c.id %}">Delete</a></td>

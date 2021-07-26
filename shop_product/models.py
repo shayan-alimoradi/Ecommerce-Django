@@ -8,6 +8,7 @@ from django.conf import settings
 
 # Third-party import
 from django_jalali.db import models as jmodels
+from tinymce import models as tinymce_models
 
 
 class TimeStamp(models.Model):
@@ -54,7 +55,7 @@ class Product(TimeStamp):
         BOTH = 'b', 'both'
     title = models.CharField(max_length=177)
     slug = models.SlugField(unique=True, blank=True)
-    description = models.TextField()
+    description = tinymce_models.HTMLField(blank=True)
     unit_price = models.PositiveIntegerField()
     amount = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(blank=True, null=True)

@@ -131,7 +131,7 @@ def product_detail(request, slug, id):
         return render(request, 'product/product_detail.html', context)
 
 
-@login_required(login_url='account:sign-in')
+@login_required(login_url='account:sign_in')
 def add_comment(request, product_id):
     url = request.META.get('HTTP_REFERER')
     if request.method == 'POST':
@@ -147,7 +147,7 @@ def add_comment(request, product_id):
         return redirect(url)
 
 
-@login_required(login_url='account:sign-in')
+@login_required(login_url='account:sign_in')
 def add_reply(request, product_id, comment_id):
     if request.method == 'POST':
         form = ReplyForm(request.POST)
@@ -163,7 +163,7 @@ def add_reply(request, product_id, comment_id):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
-@login_required(login_url='account:sign-in')
+@login_required(login_url='account:sign_in')
 def add_favourite(request, id):
     url = request.META.get('HTTP_REFERER')
     product = get_object_or_404(Product, id=id)
@@ -177,7 +177,7 @@ def add_favourite(request, id):
     return redirect(url)
 
 
-@login_required(login_url='account:sign-in')
+@login_required(login_url='account:sign_in')
 def favourite_list(request):
     fa_product = request.user.fav.all()
     paginator = Paginator(fa_product, 3)
@@ -187,4 +187,4 @@ def favourite_list(request):
 
 
 def page_not_found(request, exception=None):
-    return render(request, 'product/404.html')
+    return render(request, 'product/not_found.html')

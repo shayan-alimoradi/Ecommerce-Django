@@ -1,20 +1,23 @@
+# Standard library import
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+
+# Local import
 from shop_order.forms import OrderForm
-from shop_product.models import *
-from .models import *
-from .forms import *
+from shop_product.models import Product, Variant
+from .models import Cart, Compare
+from .forms import CartForm
 
 
-@login_required(login_url='account:sign-in')
+@login_required(login_url='account:sign_in')
 def cart_detail(request):
     cart = Cart.objects.filter(user_id=request.user.id)
     form = OrderForm()
     return render(request, 'cart/detail.html', {'cart': cart, 'form': form})
 
 
-@login_required(login_url='account:sign-in')
+@login_required(login_url='account:sign_in')
 def add_cart(request, id):
     url = request.META.get('HTTP_REFERER')
     product = Product.objects.get(id=id)
@@ -50,6 +53,7 @@ def add_cart(request, id):
         return redirect(url)
 
 
+@login_required(login_url='account:sign_in')
 def remove_cart(request, id):
     url = request.META.get('HTTP_REFERER')
     cart = Cart.objects.get(id=id)
@@ -87,6 +91,7 @@ def compare_list(request):
         return render(request, 'cart/compare_list.html', {'data': data})
 
 
+@login_required(login_url='account:sign_in')
 def add_single(request, id):
     url = request.META.get('HTTP_REFERER')
     cart = Cart.objects.get(id=id)
@@ -103,6 +108,7 @@ def add_single(request, id):
     return redirect(url)
 
 
+@login_required(login_url='account:sign_in')
 def remove_single(request, id):
     url = request.META.get('HTTP_REFERER')
     cart = Cart.objects.get(id=id)

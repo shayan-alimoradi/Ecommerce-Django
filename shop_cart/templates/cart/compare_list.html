@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load humanize %}
 
 {% block title %} Compare List {% endblock %}
 
@@ -29,7 +30,7 @@
               <a href="{{ d.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
-              {{ d.product.unit_price }} Toman
+              {{ d.product.unit_price|intcomma }} Toman
             </div>
           </div>
         {% endfor %}

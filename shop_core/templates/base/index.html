@@ -48,9 +48,9 @@
       <div class="col-lg-4 col-sm-6 portfolio-item">
         <div class="card h-100">
           <a href="{{ ls.get_absolute_url }}">
-          {% thumbnail ls.image "250x250" crop="center" as im %}
-            <img class="img-fluid rounded" src="{{ im.url }}" style="width: 177px;" alt="">
-          {% endthumbnail %}
+          {% comment %} {% thumbnail ls.image "250x250" crop="center" as im %} {% endcomment %}
+            <img class="img-fluid rounded" src="{{ ls.image.url }}" style="width: 177px;" alt="">
+          {% comment %} {% endthumbnail %} {% endcomment %}
           </a>
           <div class="card-body">
             <h4 class="card-title">

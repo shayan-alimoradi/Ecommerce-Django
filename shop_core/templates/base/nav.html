@@ -13,17 +13,17 @@
             <a class="nav-link" href="{% url 'cart:detail' %}">Cart {{ cart_nums }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'account:user-panel' %}">User Panel</a>
+            <a class="nav-link" href="{% url 'account:user_panel' %}">User Panel</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'account:log-out' %}">Log-out</a>
+            <a class="nav-link" href="{% url 'account:log_out' %}">Log-out</a>
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'account:sign-up' %}">Sign-Up</a>
+            <a class="nav-link" href="{% url 'account:sign_up' %}">Sign-Up</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'account:sign-in' %}">Sign-In</a>
+            <a class="nav-link" href="{% url 'account:sign_in' %}">Sign-In</a>
           </li>
           {% endif %}
         </ul>
