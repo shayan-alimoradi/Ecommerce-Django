@@ -6,9 +6,9 @@
 
 #### Installation
 
-[docker](https://docs.docker.com/engine/install/)
-[docker-compose](https://docs.docker.com/compose/install/)
-[rabbitmq](https://www.rabbitmq.com/download.html)
+* [docker](https://docs.docker.com/engine/install/)
+* [docker-compose](https://docs.docker.com/compose/install/)
+* [rabbitmq](https://www.rabbitmq.com/download.html)
 
 **Requirements**
 
