@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('status', models.BooleanField(default=False)),
                 ('is_reply', models.BooleanField(default=False)),
                 ('reply', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='replies', to='shop_product.comment')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('created', models.DateTimeField(auto_now_add=True))
             ],
         ),
     ]

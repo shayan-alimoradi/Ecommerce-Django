@@ -12,8 +12,8 @@ from tinymce import models as tinymce_models
 
 
 class TimeStamp(models.Model):
-    created = jmodels.jDateTimeField(auto_now_add=True, null=True)
-    updated = jmodels.jDateTimeField(auto_now=True, null=True)
+    created = jmodels.jDateTimeField(auto_now_add=True, null=True, blank=True)
+    updated = jmodels.jDateTimeField(auto_now=True, null=True, blank=True)
 
     class Meta:
         abstract = True
@@ -52,7 +52,7 @@ class Product(TimeStamp):
         COLOR = 'c', 'color'
         SIZE = 's', 'size'
         NONE = 'n', 'none'
-        BOTH = 'b', 'both'
+        # BOTH = 'b', 'both'
     title = models.CharField(max_length=177)
     slug = models.SlugField(unique=True, blank=True)
     description = tinymce_models.HTMLField(blank=True)
@@ -107,14 +107,14 @@ class Product(TimeStamp):
     get_visit_count.short_description = 'Visit Count'
     
 
-class Color(TimeStamp):
+class Color(models.Model):
     title = models.CharField(max_length=177)
 
     def __str__(self):
         return self.title
 
 
-class Size(TimeStamp):
+class Size(models.Model):
     title = models.CharField(max_length=177)
 
     def __str__(self):
@@ -150,12 +150,9 @@ class Variant(TimeStamp):
     def save(self, *args, **kwargs):
         self.total_price = self.get_total_price
         super().save(*args, **kwargs)
-    
-    def price_special_user(self):
-        return self.total_price / 2
 
 
-class Brand(TimeStamp):
+class Brand(models.Model):
     title = models.CharField(max_length=177)
 
     def __str__(self):
@@ -163,13 +160,17 @@ class Brand(TimeStamp):
 
 
 class Comment(TimeStamp):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+     null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     comment = models.TextField()
     status = models.BooleanField(default=False)
     reply = models.ForeignKey('self', on_delete=models.CASCADE, null=True, 
     blank=True, related_name='replies')
     is_reply = models.BooleanField(default=False)
+
+    class Meta(TimeStamp.Meta):
+        ordering = ('-created',)
 
     def __str__(self):
         return f'{self.user.username} - {self.comment[:17]}'

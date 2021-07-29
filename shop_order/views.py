@@ -19,6 +19,11 @@ from .models import Order, OrderItem, Coupon
 from .forms import OrderForm, CouponForm
 
 
+def order_list(request):
+    orders = Order.objects.all()
+    return render(request, 'order/detail.html', {'orders': orders})
+
+
 @login_required(login_url='account:sign_in')
 def order_detail(request, id):
     order = Order.objects.get(id=id)

@@ -1,9 +1,16 @@
 [
     {
-        "model": "shop_product.Size",
+        "model": "shop_product.size",
         "pk": 1,
         "fields": {
             "title": "M"
+        }
+    },
+    {
+        "model": "shop_product.size",
+        "pk": 2,
+        "fields": {
+            "title": "L"
         }
     }
 ]

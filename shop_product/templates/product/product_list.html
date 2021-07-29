@@ -44,8 +44,8 @@
         <!-- Blog Post -->
         {% for product in products %}
         <div class="card mb-4">
-          {% thumbnail product.image "250x250" crop="center" as im %}
-            <img class="img-fluid rounded" src="{{ im.url }}" style="width: 177px;" alt="">
+          {% thumbnail product.image "250x250" crop="center" as image %}
+            <img class="img-fluid rounded" src="{{ image.url }}" style="width: 177px;" alt="">
           {% endthumbnail %}
             <div class="card-body">
               <h2 class="card-title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h2>

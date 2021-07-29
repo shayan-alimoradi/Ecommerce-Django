@@ -1,6 +1,7 @@
 # Standard library import
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
 
 # 3rd-party impoart
 from dj_rest_auth.views import PasswordResetConfirmView
@@ -29,3 +30,12 @@ urlpatterns = [
 ]
 
 handler404 = 'shop_product.views.page_not_found'
+
+
+if settings.DEBUG:
+    import debug_toolbar
+
+
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

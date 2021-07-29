@@ -109,19 +109,19 @@ def product_detail(request, slug, id):
                 variants = Variant.objects.get(id=var_id)
             except Variant.DoesNotExist:
                 variants = Variant.objects.none()
-            colors = Variant.objects.filter(product_variant_id=id, size_variant_id=variants.size_variant_id)
-            size = Variant.objects.filter(product_variant_id=id).distinct('size_variant_id')
+            # colors = Variant.objects.filter(product_variant_id=id, size_variant_id=variants.size_variant_id)  # postgresql db
+            # size = Variant.objects.filter(product_variant_id=id).distinct('size_variant_id')  # postgresql db
         else:
             variant = Variant.objects.filter(product_variant_id=id)
             try:
                 variants = Variant.objects.get(id=id)
             except Variant.DoesNotExist:
                 variants = Variant.objects.none()
-            colors = Variant.objects.filter(product_variant_id=id, size_variant_id=variants.size_variant_id)
-            size = Variant.objects.filter(product_variant_id=id).distinct('size_variant_id')
+            # colors = Variant.objects.filter(product_variant_id=id, size_variant_id=variants.size_variant_id)  # postgresql db
+            # size = Variant.objects.filter(product_variant_id=id).distinct('size_variant_id')  # postgresql db
         context = {'product': product, 'variant': variant, 'variants': variants,
         'form': form, 'comment_form': comment_form, 'comment': comment,
-        'is_fav': is_fav, 'colors': colors, 'size': size, 'reply_form': reply_form}
+        'is_fav': is_fav, 'reply_form': reply_form}
         return render(request, 'product/product_detail.html', context)
     else:
         context = {

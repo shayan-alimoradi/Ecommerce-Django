@@ -79,12 +79,14 @@ INSTALLED_APPS = [
     'admin_honeypot',
     'sorl.thumbnail',
     'tinymce',
+    'debug_toolbar',
 ]
 
 AUTH_USER_MODEL = 'shop_account.User'
 SITE_ID = 1
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -267,3 +269,8 @@ REDIS_DB = 0
 # SESSION_COOKIE_SECURE = True
 
 SECURE_HSTS_SECONDS = 31536000
+
+# Debug toolbar
+INTERNAL_IPS = [
+    '127.0.0.1'
+]

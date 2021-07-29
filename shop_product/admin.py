@@ -54,6 +54,7 @@ class ProductAdmin(admin.ModelAdmin):
         return super().response_change(request, obj)
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title', 'is_sub', 'sub_cat')
     list_filter = ('is_sub',)
@@ -63,6 +64,5 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Color)
 admin.site.register(Size)
 admin.site.register(Variant)
-admin.site.register(Category, CategoryAdmin)
 admin.site.register(Comment)
 admin.site.register(Brand)
