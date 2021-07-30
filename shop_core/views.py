@@ -16,6 +16,7 @@ class Index(View):
     template_name = 'base/index.html'
 
     def get(self, request):
+        # tasks.send_mail.delay()
         slider = Slider.objects.all()
         cart_nums = Cart.objects.filter(
             user_id=request.user.id).aggregate(sum=Sum('quantity'))['sum']
@@ -53,3 +54,11 @@ class DownloadBucket(LoginRequiredMixin, View):
         tasks.download_object_tasks.delay(key)
         messages.success(request, 'Your demand wil be answered soon', 'success')
         return redirect(request.META.get('HTTP_REFERER'))
+
+
+class ProgressBar(View):
+    template_name = 'base/progress.html'
+
+    def get(self, request):
+        task = tasks.go_to_sleep.delay(1)
+        return render(request, self.template_name, {'task_id': task.task_id})

@@ -80,6 +80,8 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'tinymce',
     'debug_toolbar',
+    'django_celery_results',
+    'celery_progress',
 ]
 
 AUTH_USER_MODEL = 'shop_account.User'

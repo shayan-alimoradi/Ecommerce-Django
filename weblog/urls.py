@@ -20,6 +20,7 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('accounts/', include('allauth.urls')),
     path('tinymce/', include('tinymce.urls')),
+    path('celery-progress/', include('celery_progress.urls')),
     # path('api-auth/', include('rest_framework.urls')),
     # path('api/token-auth/', views.obtain_auth_token),
     path('api/rest-auth/', include('dj_rest_auth.urls')),
