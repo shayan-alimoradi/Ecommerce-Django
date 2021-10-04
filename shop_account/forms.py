@@ -1,7 +1,12 @@
+# Core Django imports
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
+
+# 3rd-party imports
 from captcha.fields import CaptchaField
+
+# Local imports
 from .models import User, Profile
 
 

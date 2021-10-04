@@ -1,9 +1,9 @@
-# Standard library import
+# Core Django imports
 from django.db import models
 from django.core.validators import MaxValueValidator
 from django.conf import settings
 
-# Local import
+# 3rd-party imports
 from django_jalali.db import models as jmodels
 
 # Local import

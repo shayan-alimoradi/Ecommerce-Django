@@ -1,4 +1,4 @@
-# Standard library import
+# Core Django imports
 from django.db import models
 from django.utils.html import format_html
 from django.utils.text import slugify
@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.conf import settings
 
-# Third-party import
+# 3rd-party imports
 from django_jalali.db import models as jmodels
 from tinymce import models as tinymce_models
 

@@ -1,6 +1,8 @@
+# Core Django imports
 from django.db import models
 from django.conf import settings
 
+# Local imports
 from shop_product.models import (
     Product, 
     Variant, 

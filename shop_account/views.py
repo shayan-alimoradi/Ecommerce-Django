@@ -1,4 +1,4 @@
-# Standard-library import
+# Core Django imports
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -16,7 +16,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.contrib.auth import get_user_model
 
-# Local import
+# Local imports
 from shop_order.models import OrderItem
 from .tokens import account_activation_token
 from .forms import (

@@ -1,11 +1,11 @@
-# Standard library import
+# Core Django imports
 from django.shortcuts import redirect, render
 from django.db.models import Sum
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
-# Local import
+# Local imports
 from shop_slider.models import Slider
 from shop_cart.models import Cart
 from shop_product.models import Product

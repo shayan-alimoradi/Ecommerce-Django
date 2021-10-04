@@ -1,4 +1,4 @@
-# Standard library import
+# Core Django imports
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -6,10 +6,10 @@ from django.utils import timezone
 from django.http import HttpResponse
 from django.contrib import messages
 
-# Third-party import
+# Third-party imports
 from suds import Client
 
-# Local import
+# Local imports
 from shop_product.models import (
     Product,
     Variant

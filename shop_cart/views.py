@@ -1,9 +1,9 @@
-# Standard library import
+# Core Django imports
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-# Local import
+# Local imports
 from shop_order.forms import OrderForm
 from shop_product.models import Product, Variant
 from .models import Cart, Compare
