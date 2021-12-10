@@ -11,6 +11,7 @@ from rest_framework_simplejwt import views as jwt_views
 urlpatterns = [
     path('secret-admin-panel/', admin.site.urls),
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('', include('shop_core.urls', namespace='core')),
     path('', include('shop_product.urls', namespace='product')),
     path('', include('shop_account.urls', namespace='account')),
