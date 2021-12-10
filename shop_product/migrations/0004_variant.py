@@ -7,22 +7,52 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_product', '0003_delete_variant'),
+        ("shop_product", "0003_delete_variant"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Variant',
+            name="Variant",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=177)),
-                ('unit_price', models.PositiveIntegerField()),
-                ('amount', models.PositiveIntegerField()),
-                ('discount', models.PositiveIntegerField(blank=True, null=True)),
-                ('total_price', models.PositiveIntegerField()),
-                ('color_variant', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='shop_product.color')),
-                ('product_variant', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shop_product.product')),
-                ('size_variant', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='shop_product.size')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=177)),
+                ("unit_price", models.PositiveIntegerField()),
+                ("amount", models.PositiveIntegerField()),
+                ("discount", models.PositiveIntegerField(blank=True, null=True)),
+                ("total_price", models.PositiveIntegerField()),
+                (
+                    "color_variant",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="shop_product.color",
+                    ),
+                ),
+                (
+                    "product_variant",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="shop_product.product",
+                    ),
+                ),
+                (
+                    "size_variant",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="shop_product.size",
+                    ),
+                ),
             ],
         ),
     ]

@@ -6,13 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_product', '0013_auto_20210302_1024'),
+        ("shop_product", "0013_auto_20210302_1024"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='status',
-            field=models.CharField(blank=True, choices=[('Color', 'color'), ('Size', 'size'), ('None', 'none'), ('Both', 'both')], max_length=177),
+            model_name="product",
+            name="status",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("Color", "color"),
+                    ("Size", "size"),
+                    ("None", "none"),
+                    ("Both", "both"),
+                ],
+                max_length=177,
+            ),
         ),
     ]

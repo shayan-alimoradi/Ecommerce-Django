@@ -10,10 +10,7 @@ from django.contrib import messages
 from suds import Client
 
 # Local imports
-from shop_product.models import (
-    Product,
-    Variant
-)
+from shop_product.models import Product, Variant
 from shop_cart.models import Cart
 from .models import Order, OrderItem, Coupon
 from .forms import OrderForm, CouponForm
@@ -21,44 +18,53 @@ from .forms import OrderForm, CouponForm
 
 def order_list(request):
     orders = Order.objects.all()
-    return render(request, 'order/detail.html', {'orders': orders})
+    return render(request, "order/detail.html", {"orders": orders})
 
 
-@login_required(login_url='account:sign_in')
+@login_required(login_url="account:sign_in")
 def order_detail(request, id):
     order = Order.objects.get(id=id)
     form = CouponForm()
-    return render(request, 'order/detail.html', {'form': form, 'order': order})
+    return render(request, "order/detail.html", {"form": form, "order": order})
 
 
 @require_POST
-@login_required(login_url='account:sign_in')
+@login_required(login_url="account:sign_in")
 def create_order(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = OrderForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            order = Order.objects.create(address=data['address'], user_id=request.user.id)
-            messages.success(request, 'Order Created Successfully', 'primary')
+            order = Order.objects.create(
+                address=data["address"], user_id=request.user.id
+            )
+            messages.success(request, "Order Created Successfully", "primary")
         cart = Cart.objects.filter(user_id=request.user.id)
         for c in cart:
-            OrderItem.objects.create(user_id=request.user.id, order_id=order.id, product_id=c.product_id,
-            variant_id=c.variant_id, quantity=c.quantity)
-        return redirect('order:detail', order.id)
+            OrderItem.objects.create(
+                user_id=request.user.id,
+                order_id=order.id,
+                product_id=c.product_id,
+                variant_id=c.variant_id,
+                quantity=c.quantity,
+            )
+        return redirect("order:detail", order.id)
 
 
-@login_required(login_url='account:sign_in')
+@login_required(login_url="account:sign_in")
 def coupon_order(request, id):
-    url = request.META.get('HTTP_REFERER')
-    if request.method == 'POST':
+    url = request.META.get("HTTP_REFERER")
+    if request.method == "POST":
         form = CouponForm(request.POST)
         if form.is_valid():
             time = timezone.now()
             data = form.cleaned_data
             try:
-                coupon = Coupon.objects.get(code=data['code'], start__lte=time, end__gte=time, active=True)
+                coupon = Coupon.objects.get(
+                    code=data["code"], start__lte=time, end__gte=time, active=True
+                )
             except Coupon.DoesNotExist:
-                messages.error(request, 'code is invalid or it is expired', 'danger')
+                messages.error(request, "code is invalid or it is expired", "danger")
                 return redirect(url)
             order = Order.objects.get(id=id)
             order.discount = coupon.discount
@@ -66,21 +72,25 @@ def coupon_order(request, id):
         return redirect(url)
 
 
-MERCHANT = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
-client = Client('https://www.zarinpal.com/pg/services/WebGate/wsdl')
+MERCHANT = "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+client = Client("https://www.zarinpal.com/pg/services/WebGate/wsdl")
 description = "Description"  # Required
-mobile = '09123456789'  # Optional
-CallbackURL = 'http://localhost:8000/order/verify/' # Important: need to edit for realy server.
+mobile = "09123456789"  # Optional
+CallbackURL = (
+    "http://localhost:8000/order/verify/"  # Important: need to edit for realy server.
+)
 
 
-@login_required(login_url='account:sign_in')
+@login_required(login_url="account:sign_in")
 def send_request(request, price, order_id):
     global amount, o_id
     amount = price
     o_id = order_id
-    result = client.service.PaymentRequest(MERCHANT, amount, description, request.user.email, mobile, CallbackURL)
+    result = client.service.PaymentRequest(
+        MERCHANT, amount, description, request.user.email, mobile, CallbackURL
+    )
     if result.Status == 100:
-        return redirect('https://www.zarinpal.com/pg/StartPay/' + str(result.Authority))
+        return redirect("https://www.zarinpal.com/pg/StartPay/" + str(result.Authority))
     else:
         order = Order.objects.get(id=o_id)
         order.paid = True
@@ -101,18 +111,20 @@ def send_request(request, price, order_id):
                 product.sell += item.quantity
                 product.save()
             Cart.objects.filter(user_id=request.user.id).delete()
-        return HttpResponse('Error code: ' + str(result.Status))
+        return HttpResponse("Error code: " + str(result.Status))
 
 
-@login_required(login_url='account:sign_in')
+@login_required(login_url="account:sign_in")
 def verify(request):
-    if request.GET.get('Status') == 'OK':
-        result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], amount)
+    if request.GET.get("Status") == "OK":
+        result = client.service.PaymentVerification(
+            MERCHANT, request.GET["Authority"], amount
+        )
         if result.Status == 100:
-            return HttpResponse('Transaction success.')
+            return HttpResponse("Transaction success.")
         elif result.Status == 101:
-            return HttpResponse('Transaction submitted')
+            return HttpResponse("Transaction submitted")
         else:
-            return HttpResponse('Transaction failed.')
+            return HttpResponse("Transaction failed.")
     else:
-        return HttpResponse('Transaction failed or canceled by user')
+        return HttpResponse("Transaction failed or canceled by user")

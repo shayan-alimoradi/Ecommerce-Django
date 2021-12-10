@@ -7,28 +7,28 @@ import django_jalali.db.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_cart', '0008_cart_compare'),
+        ("shop_cart", "0008_cart_compare"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cart',
-            name='created',
+            model_name="cart",
+            name="created",
             field=django_jalali.db.models.jDateTimeField(auto_now_add=True, null=True),
         ),
         migrations.AddField(
-            model_name='cart',
-            name='updated',
+            model_name="cart",
+            name="updated",
             field=django_jalali.db.models.jDateTimeField(auto_now=True, null=True),
         ),
         migrations.AddField(
-            model_name='compare',
-            name='created',
+            model_name="compare",
+            name="created",
             field=django_jalali.db.models.jDateTimeField(auto_now_add=True, null=True),
         ),
         migrations.AddField(
-            model_name='compare',
-            name='updated',
+            model_name="compare",
+            name="updated",
             field=django_jalali.db.models.jDateTimeField(auto_now=True, null=True),
         ),
     ]

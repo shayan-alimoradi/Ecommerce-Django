@@ -1,17 +1,16 @@
 from django.test import TestCase
 
 from shop_order.forms import (
-    OrderForm, 
+    OrderForm,
     CouponForm,
 )
 
+
 class TestOrderForm(TestCase):
     def test_valid_data(self):
-        form = OrderForm(data={
-            'address': 'Canada'
-        })
+        form = OrderForm(data={"address": "Canada"})
         self.assertTrue(form.is_valid())
-    
+
     def test_invalid_data(self):
         form = OrderForm(data={})
         self.assertFalse(form.is_valid())
@@ -20,11 +19,9 @@ class TestOrderForm(TestCase):
 
 class TestCouponForm(TestCase):
     def test_valid_data(self):
-        form = CouponForm(data={
-            'code': 'django'
-        })
+        form = CouponForm(data={"code": "django"})
         self.assertTrue(form.is_valid())
-    
+
     def test_invalid_data(self):
         form = OrderForm(data={})
         self.assertFalse(form.is_valid())

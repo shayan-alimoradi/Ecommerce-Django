@@ -7,70 +7,74 @@ import shop_account.validators
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_account', '0001_initial'),
+        ("shop_account", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='profile',
-            name='phone',
+            model_name="profile",
+            name="phone",
         ),
         migrations.RemoveField(
-            model_name='user',
-            name='is_special',
+            model_name="user",
+            name="is_special",
         ),
         migrations.RemoveField(
-            model_name='user',
-            name='special_user',
+            model_name="user",
+            name="special_user",
         ),
         migrations.AddField(
-            model_name='user',
-            name='address',
+            model_name="user",
+            name="address",
             field=models.TextField(blank=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='bio',
+            model_name="user",
+            name="bio",
             field=models.TextField(blank=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='birthday',
+            model_name="user",
+            name="birthday",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='city',
+            model_name="user",
+            name="city",
             field=models.CharField(blank=True, max_length=70),
         ),
         migrations.AddField(
-            model_name='user',
-            name='country',
+            model_name="user",
+            name="country",
             field=models.CharField(blank=True, max_length=70),
         ),
         migrations.AddField(
-            model_name='user',
-            name='instagram_id',
+            model_name="user",
+            name="instagram_id",
             field=models.CharField(blank=True, max_length=60),
         ),
         migrations.AddField(
-            model_name='user',
-            name='phone_number',
-            field=models.CharField(blank=True, max_length=11, validators=[shop_account.validators.validate_phone_number]),
+            model_name="user",
+            name="phone_number",
+            field=models.CharField(
+                blank=True,
+                max_length=11,
+                validators=[shop_account.validators.validate_phone_number],
+            ),
         ),
         migrations.AddField(
-            model_name='user',
-            name='telegram_id',
+            model_name="user",
+            name="telegram_id",
             field=models.CharField(blank=True, max_length=60),
         ),
         migrations.AddField(
-            model_name='user',
-            name='website',
+            model_name="user",
+            name="website",
             field=models.URLField(blank=True, max_length=255),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='last_login',
+            model_name="user",
+            name="last_login",
             field=models.DateTimeField(auto_now=True, null=True),
         ),
     ]

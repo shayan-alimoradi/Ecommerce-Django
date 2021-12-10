@@ -6,4 +6,4 @@ register = template.Library()
 
 @register.filter
 def convert(value):
-	return size(value)
+    return size(value)

@@ -6,20 +6,20 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_product', '0023_comment_product'),
+        ("shop_product", "0023_comment_product"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='comment',
+            name="comment",
             options={},
         ),
         migrations.RemoveField(
-            model_name='comment',
-            name='created',
+            model_name="comment",
+            name="created",
         ),
         migrations.RemoveField(
-            model_name='comment',
-            name='updated',
+            model_name="comment",
+            name="updated",
         ),
     ]

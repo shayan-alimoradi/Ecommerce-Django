@@ -23,11 +23,11 @@ def download_object_tasks(key):
 @shared_task
 def send_email_task():
     send_mail(
-        'Celery task worked',
-        'This is proof the task worked',
-        'shayan.aimoradii@gmail.com',
-        ['redbull.9248@gmail.com'],
-        fail_silently=False
+        "Celery task worked",
+        "This is proof the task worked",
+        "shayan.aimoradii@gmail.com",
+        ["redbull.9248@gmail.com"],
+        fail_silently=False,
     )
     return None
 
@@ -37,5 +37,5 @@ def go_to_sleep(self, duration):
     progress_recorder = ProgressRecorder(self)
     for i in range(5):
         sleep(duration)
-        progress_recorder.set_progress(i + 1, 5, f'On iteration {i}')
-    return 'Done'
+        progress_recorder.set_progress(i + 1, 5, f"On iteration {i}")
+    return "Done"

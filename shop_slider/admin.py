@@ -3,7 +3,7 @@ from .models import *
 
 
 class SliderAdmin(admin.ModelAdmin):
-    list_display = ('title', 'image_thumbnail')
+    list_display = ("title", "image_thumbnail")
 
 
 admin.site.register(Slider, SliderAdmin)

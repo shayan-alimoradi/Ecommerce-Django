@@ -8,18 +8,29 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('shop_product', '0012_auto_20210301_0818'),
+        ("shop_product", "0012_auto_20210301_0818"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='tag',
+            name="tag",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=177)),
-                ('slug', models.SlugField(unique=True)),
-                ('active', models.BooleanField(default=True)),
-                ('product', models.ManyToManyField(blank=True, to='shop_product.Product')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=177)),
+                ("slug", models.SlugField(unique=True)),
+                ("active", models.BooleanField(default=True)),
+                (
+                    "product",
+                    models.ManyToManyField(blank=True, to="shop_product.Product"),
+                ),
             ],
         ),
     ]

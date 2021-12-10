@@ -1,9 +1,9 @@
 # Core Django imports
 from django.db import models
 from django.contrib.auth.models import (
-    BaseUserManager, 
-    AbstractBaseUser, 
-    Permission, 
+    BaseUserManager,
+    AbstractBaseUser,
+    Permission,
     _user_get_permissions,
 )
 from django.db.models.signals import post_save
@@ -18,9 +18,9 @@ from .validators import validate_phone_number
 class UserManager(BaseUserManager):
     def create_user(self, email, username, password):
         if not email:
-            raise ValueError('Users must have an email address')
+            raise ValueError("Users must have an email address")
         if not username:
-            raise ValueError('Users must have an username')
+            raise ValueError("Users must have an username")
 
         user = self.model(
             email=self.normalize_email(email),
@@ -45,19 +45,20 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     email = models.EmailField(
-        verbose_name='email address',
+        verbose_name="email address",
         max_length=255,
         unique=True,
     )
     username = models.CharField(max_length=177)
-    phone_number = models.CharField(max_length=11, blank=True,
-    validators=[validate_phone_number])
+    phone_number = models.CharField(
+        max_length=11, blank=True, validators=[validate_phone_number]
+    )
     first_name = models.CharField(max_length=177, null=True, blank=True)
     last_name = models.CharField(max_length=177, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    permission = models.ManyToManyField(Permission, related_name='users')
+    permission = models.ManyToManyField(Permission, related_name="users")
     address = models.TextField(blank=True)
     city = models.CharField(max_length=70, blank=True)
     country = models.CharField(max_length=70, blank=True)
@@ -70,8 +71,8 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ('username',)
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ("username",)
 
     def __str__(self):
         return self.email
@@ -93,10 +94,10 @@ class User(AbstractBaseUser):
         return self.is_admin
 
     def get_user_permissions(self, obj=None):
-        return _user_get_permissions(self, obj, 'user')
-    
+        return _user_get_permissions(self, obj, "user")
+
     def get_all_permissions(self, obj=None):
-        return _user_get_permissions(self, obj, 'all')
+        return _user_get_permissions(self, obj, "all")
 
 
 class Profile(models.Model):
@@ -107,8 +108,9 @@ class Profile(models.Model):
 
 
 def user_profile_save(sender, **kwargs):
-    if kwargs['created']:
-        user_profile = Profile(user=kwargs['instance'])
+    if kwargs["created"]:
+        user_profile = Profile(user=kwargs["instance"])
         user_profile.save()
+
 
 post_save.connect(user_profile_save, sender=User)

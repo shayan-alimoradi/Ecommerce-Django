@@ -9,24 +9,20 @@ from shop_product.forms import (
 
 class TestSearchForm(TestCase):
     def test_valid_data(self):
-        form = SearchForm(data={
-            'search': 'request'
-        })
+        form = SearchForm(data={"search": "request"})
         self.assertTrue(form.is_valid())
-    
+
     def test_invalid_data(self):
         form = SearchForm(data={})
         self.assertFalse(form.is_valid())
         self.assertEqual(len(form.errors), 1)
 
-    
+
 class TestCommentForm(TestCase):
     def test_valid_data(self):
-        form = CommentForm(data={
-            'comment': 'comment'
-        })
+        form = CommentForm(data={"comment": "comment"})
         self.assertTrue(form.is_valid())
-    
+
     def test_invalid_data(self):
         form = CommentForm(data={})
         self.assertFalse(form.is_valid())
@@ -35,11 +31,9 @@ class TestCommentForm(TestCase):
 
 class ReplyCommentForm(TestCase):
     def test_valid_data(self):
-        form = ReplyForm(data={
-            'comment': 'comment'
-        })
+        form = ReplyForm(data={"comment": "comment"})
         self.assertTrue(form.is_valid())
-    
+
     def test_invalid_data(self):
         form = ReplyForm(data={})
         self.assertFalse(form.is_valid())

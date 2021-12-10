@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_cart', '0005_auto_20210301_1035'),
+        ("shop_cart", "0005_auto_20210301_1035"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='compare',
-            name='session_key',
+            model_name="compare",
+            name="session_key",
             field=models.CharField(blank=True, max_length=177, null=True, unique=True),
         ),
     ]

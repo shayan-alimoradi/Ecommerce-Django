@@ -7,13 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_product', '0022_remove_comment_product'),
+        ("shop_product", "0022_remove_comment_product"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='comment',
-            name='product',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='shop_product.product'),
+            model_name="comment",
+            name="product",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="shop_product.product",
+            ),
         ),
     ]

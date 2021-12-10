@@ -7,14 +7,16 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_product', '0010_comment_product'),
-        ('shop_cart', '0001_initial'),
+        ("shop_product", "0010_comment_product"),
+        ("shop_cart", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='cart',
-            name='variant',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shop_product.variant'),
+            model_name="cart",
+            name="variant",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="shop_product.variant"
+            ),
         ),
     ]

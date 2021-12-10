@@ -6,22 +6,22 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_cart', '0006_auto_20210301_1212'),
+        ("shop_cart", "0006_auto_20210301_1212"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='compare',
-            name='product',
+            model_name="compare",
+            name="product",
         ),
         migrations.RemoveField(
-            model_name='compare',
-            name='user',
+            model_name="compare",
+            name="user",
         ),
         migrations.DeleteModel(
-            name='Cart',
+            name="Cart",
         ),
         migrations.DeleteModel(
-            name='Compare',
+            name="Compare",
         ),
     ]

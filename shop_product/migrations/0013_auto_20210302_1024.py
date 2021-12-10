@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_product', '0012_auto_20210301_0818'),
+        ("shop_product", "0012_auto_20210301_0818"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='sell',
+            model_name="product",
+            name="sell",
             field=models.PositiveIntegerField(default=0),
         ),
         migrations.AddField(
-            model_name='variant',
-            name='sell',
+            model_name="variant",
+            name="sell",
             field=models.PositiveIntegerField(default=0),
         ),
     ]

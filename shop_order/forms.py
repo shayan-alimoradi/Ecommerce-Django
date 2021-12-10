@@ -7,11 +7,11 @@ class OrderForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['address'].required = True
+        self.fields["address"].required = True
 
     class Meta:
         model = Order
-        fields = ('address',)
+        fields = ("address",)
 
 
 class CouponForm(forms.Form):

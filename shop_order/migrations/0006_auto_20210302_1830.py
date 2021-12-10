@@ -6,33 +6,33 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_order', '0005_auto_20210301_1503'),
+        ("shop_order", "0005_auto_20210301_1503"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='Coupon',
+            name="Coupon",
         ),
         migrations.RemoveField(
-            model_name='orderitem',
-            name='order',
+            model_name="orderitem",
+            name="order",
         ),
         migrations.RemoveField(
-            model_name='orderitem',
-            name='product',
+            model_name="orderitem",
+            name="product",
         ),
         migrations.RemoveField(
-            model_name='orderitem',
-            name='user',
+            model_name="orderitem",
+            name="user",
         ),
         migrations.RemoveField(
-            model_name='orderitem',
-            name='variant',
+            model_name="orderitem",
+            name="variant",
         ),
         migrations.DeleteModel(
-            name='Order',
+            name="Order",
         ),
         migrations.DeleteModel(
-            name='OrderItem',
+            name="OrderItem",
         ),
     ]

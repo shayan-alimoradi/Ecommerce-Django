@@ -10,23 +10,27 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('shop_product', '0034_auto_20210729_1039'),
+        ("shop_product", "0034_auto_20210729_1039"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='comment',
-            name='user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="comment",
+            name="user",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AlterField(
-            model_name='comment',
-            name='created',
+            model_name="comment",
+            name="created",
             field=django_jalali.db.models.jDateTimeField(auto_now_add=True, null=True),
         ),
         migrations.AlterField(
-            model_name='comment',
-            name='updated',
+            model_name="comment",
+            name="updated",
             field=django_jalali.db.models.jDateTimeField(auto_now=True, null=True),
         ),
     ]

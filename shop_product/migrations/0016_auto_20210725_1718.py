@@ -8,108 +8,114 @@ import django_jalali.db.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_product', '0015_auto_20210304_0947'),
+        ("shop_product", "0015_auto_20210304_0947"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='TimeStamp',
+            name="TimeStamp",
         ),
         migrations.AlterModelOptions(
-            name='category',
-            options={'ordering': ('-created',), 'verbose_name_plural': 'Categories'},
+            name="category",
+            options={"ordering": ("-created",), "verbose_name_plural": "Categories"},
         ),
         migrations.AlterModelOptions(
-            name='comment',
-            options={'ordering': ('-created',)},
+            name="comment",
+            options={"ordering": ("-created",)},
         ),
         migrations.AlterModelOptions(
-            name='product',
-            options={'ordering': ('-created',)},
+            name="product",
+            options={"ordering": ("-created",)},
         ),
         migrations.AlterModelOptions(
-            name='variant',
-            options={'ordering': ('-created',)},
+            name="variant",
+            options={"ordering": ("-created",)},
         ),
         migrations.AddField(
-            model_name='brand',
-            name='created',
+            model_name="brand",
+            name="created",
             field=django_jalali.db.models.jDateTimeField(auto_now_add=True, null=True),
         ),
         migrations.AddField(
-            model_name='brand',
-            name='updated',
+            model_name="brand",
+            name="updated",
             field=django_jalali.db.models.jDateTimeField(auto_now=True, null=True),
         ),
         migrations.AddField(
-            model_name='category',
-            name='created',
+            model_name="category",
+            name="created",
             field=django_jalali.db.models.jDateTimeField(auto_now_add=True, null=True),
         ),
         migrations.AddField(
-            model_name='category',
-            name='updated',
+            model_name="category",
+            name="updated",
             field=django_jalali.db.models.jDateTimeField(auto_now=True, null=True),
         ),
         migrations.AddField(
-            model_name='color',
-            name='created',
+            model_name="color",
+            name="created",
             field=django_jalali.db.models.jDateTimeField(auto_now_add=True, null=True),
         ),
         migrations.AddField(
-            model_name='color',
-            name='updated',
+            model_name="color",
+            name="updated",
             field=django_jalali.db.models.jDateTimeField(auto_now=True, null=True),
         ),
         migrations.AddField(
-            model_name='comment',
-            name='created',
+            model_name="comment",
+            name="created",
             field=django_jalali.db.models.jDateTimeField(auto_now_add=True, null=True),
         ),
         migrations.AddField(
-            model_name='comment',
-            name='updated',
+            model_name="comment",
+            name="updated",
             field=django_jalali.db.models.jDateTimeField(auto_now=True, null=True),
         ),
         migrations.AddField(
-            model_name='product',
-            name='created',
+            model_name="product",
+            name="created",
             field=django_jalali.db.models.jDateTimeField(auto_now_add=True, null=True),
         ),
         migrations.AddField(
-            model_name='product',
-            name='id',
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="product",
+            name="id",
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='product',
-            name='updated',
+            model_name="product",
+            name="updated",
             field=django_jalali.db.models.jDateTimeField(auto_now=True, null=True),
         ),
         migrations.AddField(
-            model_name='size',
-            name='created',
+            model_name="size",
+            name="created",
             field=django_jalali.db.models.jDateTimeField(auto_now_add=True, null=True),
         ),
         migrations.AddField(
-            model_name='size',
-            name='updated',
+            model_name="size",
+            name="updated",
             field=django_jalali.db.models.jDateTimeField(auto_now=True, null=True),
         ),
         migrations.AddField(
-            model_name='variant',
-            name='created',
+            model_name="variant",
+            name="created",
             field=django_jalali.db.models.jDateTimeField(auto_now_add=True, null=True),
         ),
         migrations.AddField(
-            model_name='variant',
-            name='updated',
+            model_name="variant",
+            name="updated",
             field=django_jalali.db.models.jDateTimeField(auto_now=True, null=True),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='status',
-            field=models.CharField(blank=True, choices=[('c', 'color'), ('s', 'size'), ('n', 'none'), ('b', 'both')], max_length=15),
+            model_name="product",
+            name="status",
+            field=models.CharField(
+                blank=True,
+                choices=[("c", "color"), ("s", "size"), ("n", "none"), ("b", "both")],
+                max_length=15,
+            ),
         ),
     ]

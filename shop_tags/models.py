@@ -10,7 +10,8 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     def product_to_str(self):
-        return '-'.join([product.title for product in self.product.all()])
-    product_to_str.short_description = 'Products'
+        return "-".join([product.title for product in self.product.all()])
+
+    product_to_str.short_description = "Products"

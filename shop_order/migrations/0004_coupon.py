@@ -7,19 +7,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_order', '0003_remove_orderitem_price'),
+        ("shop_order", "0003_remove_orderitem_price"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Coupon',
+            name="Coupon",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=177, unique=True)),
-                ('start', models.DateTimeField()),
-                ('end', models.DateTimeField()),
-                ('active', models.BooleanField(default=False)),
-                ('discount', models.PositiveIntegerField(validators=[django.core.validators.MaxValueValidator(100)])),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=177, unique=True)),
+                ("start", models.DateTimeField()),
+                ("end", models.DateTimeField()),
+                ("active", models.BooleanField(default=False)),
+                (
+                    "discount",
+                    models.PositiveIntegerField(
+                        validators=[django.core.validators.MaxValueValidator(100)]
+                    ),
+                ),
             ],
         ),
     ]

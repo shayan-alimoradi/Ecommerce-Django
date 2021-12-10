@@ -6,17 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop_product', '0035_auto_20210729_1045'),
+        ("shop_product", "0035_auto_20210729_1045"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='comment',
-            options={'ordering': ('-created',)},
+            name="comment",
+            options={"ordering": ("-created",)},
         ),
         migrations.AlterField(
-            model_name='product',
-            name='status',
-            field=models.CharField(blank=True, choices=[('c', 'color'), ('s', 'size'), ('n', 'none')], max_length=15),
+            model_name="product",
+            name="status",
+            field=models.CharField(
+                blank=True,
+                choices=[("c", "color"), ("s", "size"), ("n", "none")],
+                max_length=15,
+            ),
         ),
     ]

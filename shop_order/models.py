@@ -11,14 +11,16 @@ from shop_product.models import Product, Variant
 
 
 class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     address = models.TextField()
     paid = models.BooleanField(default=False)
     created = jmodels.jDateTimeField(auto_now_add=True)
-    discount = models.PositiveIntegerField(validators=[MaxValueValidator(100)], null=True, blank=True)
+    discount = models.PositiveIntegerField(
+        validators=[MaxValueValidator(100)], null=True, blank=True
+    )
 
     def __str__(self):
-        return f'{self.user.username} - {self.created}'
+        return f"{self.user.username} - {self.created}"
 
     @property
     def get_total_price(self):
@@ -30,28 +32,34 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_item')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    variant = models.ForeignKey(Variant, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    order = models.ForeignKey(
+        Order, on_delete=models.PROTECT, related_name="order_item"
+    )
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    variant = models.ForeignKey(
+        Variant, on_delete=models.PROTECT, null=True, blank=True
+    )
     quantity = models.PositiveIntegerField()
 
     def __str__(self):
-        return f'{self.user.username} - {self.product.title}'
+        return f"{self.user.username} - {self.product.title}"
 
     def price(self):
         if self.product.status is not None:
             return self.variant.total_price * self.quantity
         else:
             return self.product.total_price * self.quantity
-    
+
     def get_color(self):
         return self.variant.color_variant
-    get_color.short_description = 'color'
+
+    get_color.short_description = "color"
 
     def get_size(self):
         return self.variant.size_variant
-    get_size.short_description = 'size'
+
+    get_size.short_description = "size"
 
 
 class Coupon(models.Model):
@@ -62,4 +70,4 @@ class Coupon(models.Model):
     discount = models.PositiveIntegerField(validators=[MaxValueValidator(100)])
 
     def __str__(self):
-        return f'{self.code} - {self.discount}'
+        return f"{self.code} - {self.discount}"

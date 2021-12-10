@@ -11,19 +11,21 @@ from .models import User, Profile
 
 
 message = {
-    'required': 'this field is required',
-    'invalid': 'please enter a valid email address',
-    'ma_length': 'character for this field is too long'
+    "required": "this field is required",
+    "invalid": "please enter a valid email address",
+    "ma_length": "character for this field is too long",
 }
 
 
 class UserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label="Password confirmation", widget=forms.PasswordInput
+    )
 
     class Meta:
         model = User
-        fields = ('email', 'username')
+        fields = ("email", "username")
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -47,68 +49,85 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'username')
+        fields = ("email", "username")
 
     def clean_password(self):
         return self.initial["password"]
 
 
 class SignInForm(forms.Form):
-    email = forms.EmailField(max_length=77, error_messages=message, widget=forms.TextInput())
-    password = forms.CharField(error_messages={'required': 'this field is required'}, widget=forms.PasswordInput())
-    remember = forms.CharField(required=False, label='remember me', widget=forms.CheckboxInput())
+    email = forms.EmailField(
+        max_length=77, error_messages=message, widget=forms.TextInput()
+    )
+    password = forms.CharField(
+        error_messages={"required": "this field is required"},
+        widget=forms.PasswordInput(),
+    )
+    remember = forms.CharField(
+        required=False, label="remember me", widget=forms.CheckboxInput()
+    )
     captcha = CaptchaField()
 
 
 class SignUpForm(forms.Form):
-    username = forms.CharField(max_length=77, error_messages=message, widget=forms.TextInput())
-    email = forms.EmailField(max_length=77, error_messages=message, widget=forms.TextInput())
-    password = forms.CharField(error_messages={'required': 'this field is required'}, widget=forms.PasswordInput())
-    confirm_password = forms.CharField(error_messages={'required': 'this field is required'}, widget=forms.PasswordInput())
+    username = forms.CharField(
+        max_length=77, error_messages=message, widget=forms.TextInput()
+    )
+    email = forms.EmailField(
+        max_length=77, error_messages=message, widget=forms.TextInput()
+    )
+    password = forms.CharField(
+        error_messages={"required": "this field is required"},
+        widget=forms.PasswordInput(),
+    )
+    confirm_password = forms.CharField(
+        error_messages={"required": "this field is required"},
+        widget=forms.PasswordInput(),
+    )
 
     def clean_username(self):
-        username = self.cleaned_data['username']
+        username = self.cleaned_data["username"]
         qs = User.objects.filter(username=username)
         if qs.exists():
-            raise forms.ValidationError('this username is already exists')
+            raise forms.ValidationError("this username is already exists")
         return username
-    
+
     def clean_email(self):
-        email = self.cleaned_data['email']
+        email = self.cleaned_data["email"]
         qs = User.objects.filter(email=email)
         if qs.exists():
-            raise forms.ValidationError('this email address is already exists')
+            raise forms.ValidationError("this email address is already exists")
         return email
-    
+
     def clean_confirm_password(self):
-        password = self.cleaned_data['password']
-        confirm_password = self.cleaned_data['confirm_password']
+        password = self.cleaned_data["password"]
+        confirm_password = self.cleaned_data["confirm_password"]
         if password != confirm_password:
-            raise forms.ValidationError('Passwords must be mtach!')
+            raise forms.ValidationError("Passwords must be mtach!")
         return confirm_password
-    
+
 
 class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['username'].disabled = True
-        self.fields['email'].disabled = True
+        self.fields["username"].disabled = True
+        self.fields["email"].disabled = True
 
     class Meta:
         model = User
         fields = (
-            'username', 
-            'email', 
-            'phone_number',
-            'first_name',
-            'last_name',
-            'address',
-            'city',
-            'country',
-            'bio',
-            'birthday',
-            'telegram_id',
-            'instagram_id',
-            'website',
+            "username",
+            "email",
+            "phone_number",
+            "first_name",
+            "last_name",
+            "address",
+            "city",
+            "country",
+            "bio",
+            "birthday",
+            "telegram_id",
+            "instagram_id",
+            "website",
         )
