@@ -11,57 +11,57 @@ services:
         - main
       env_file: .env
 
-    # rabbitmq:
-    #   image: rabbitmq:latest
-    #   container_name: raabbitmq
-    #   restart: always
-    #   ports:
-    #     - '5672:5672'
-    #   networks:
-    #     - main
+    rabbitmq:
+      image: rabbitmq:latest
+      container_name: raabbitmq
+      restart: always
+      ports:
+        - '5672:5672'
+      networks:
+        - main
     
-    # celery_worker:
-    #   container_name: celert_worker
-    #   command: 'celery -A weblog worker -l info'
-    #   depends_on:
-    #     - rabbitmq
-    #     - app
-    #     - postgres
-    #   image: app-image  # search it in this dir
-    #   environment: 
-    #     - C_FORCE_ROOT='true'
-    #   networks:
-    #     - main
-    #   restart: on-failure
+    celery_worker:
+      container_name: celert_worker
+      command: 'celery -A weblog worker -l info'
+      depends_on:
+        - rabbitmq
+        - app
+        - postgres
+      image: app-image  # search it in this dir
+      environment: 
+        - C_FORCE_ROOT='true'
+      networks:
+        - main
+      restart: on-failure
     
-    # app:
-    #   build: .
-    #   command: sh -c 'python manage.py migrate && gunicorn weblog.wsgi -b 0.0.0.0:8000'
-    #   container_name: app
-    #   volumes:
-    #     - .:/src/
-    #   depends_on:
-    #     - postgres
-    #     - rabbitmq
-    #   expose:
-    #     - '8000'
-    #   networks:
-    #     - main
-    #   restart: on-failure
+    app:
+      build: .
+      command: sh -c 'python manage.py migrate && gunicorn weblog.wsgi -b 0.0.0.0:8000'
+      container_name: app
+      volumes:
+        - .:/src/
+      depends_on:
+        - postgres
+        - rabbitmq
+      expose:
+        - '8000'
+      networks:
+        - main
+      restart: on-failure
 
-    # nginx:
-    #   container_name: nginx
-    #   command: nginx -g 'daemon off;'  # run nginx
-    #   depends_on:
-    #     - app
-    #   image: nginx:latest
-    #   networks:
-    #     - main
-    #   ports:
-    #     - '80:80'
-    #   restart: on-failure
-    #   volumes:
-    #     - ./nginx.conf:/etc/nginx/main-nginx.conf 
+    nginx:
+      container_name: nginx
+      command: nginx -g 'daemon off;'  # run nginx
+      depends_on:
+        - app
+      image: nginx:latest
+      networks:
+        - main
+      ports:
+        - '80:80'
+      restart: on-failure
+      volumes:
+        - ./nginx.conf:/etc/nginx/main-nginx.conf 
       
 volumes:
   postgres_data:

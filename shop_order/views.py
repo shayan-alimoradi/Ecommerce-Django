@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.http import HttpResponse
 from django.contrib import messages
 
-# Third-party imports
+# 3rd-party imports
 from suds import Client
 
 # Local imports
@@ -68,7 +68,7 @@ def coupon_order(request, id):
 
 MERCHANT = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
 client = Client('https://www.zarinpal.com/pg/services/WebGate/wsdl')
-description = "توضیحات مربوط به تراکنش را در این قسمت وارد کنید"  # Required
+description = "Description"  # Required
 mobile = '09123456789'  # Optional
 CallbackURL = 'http://localhost:8000/order/verify/' # Important: need to edit for realy server.
 

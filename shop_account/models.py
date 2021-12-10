@@ -8,10 +8,10 @@ from django.contrib.auth.models import (
 )
 from django.db.models.signals import post_save
 
-# Third-party import
+# 3rd-party imports
 from django_jalali.db import models as jmodels
 
-# Local import
+# Local imports
 from .validators import validate_phone_number
 
 

@@ -1,9 +1,9 @@
-# Standard library import
+# Core django imports
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
-# Local import
+# Local imports
 from .models import User, Profile
 from .forms import UserChangeForm, UserCreationForm
 
