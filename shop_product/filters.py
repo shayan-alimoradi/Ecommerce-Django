@@ -15,7 +15,7 @@ class ProductFilter(django_filters.FilterSet):
     price_gte = django_filters.NumberFilter(field_name="unit_price", lookup_expr="gte")
     price_lte = django_filters.NumberFilter(field_name="unit_price", lookup_expr="lte")
     brand = django_filters.ModelMultipleChoiceFilter(
-        queryset=Brand.objects.all(), widget=forms.CheckboxSelectMultiple
+        queryset=Brand.objects.values_list('title'), widget=forms.CheckboxSelectMultiple
     )
     color = django_filters.ModelMultipleChoiceFilter(
         queryset=Color.objects.all(), widget=forms.CheckboxSelectMultiple

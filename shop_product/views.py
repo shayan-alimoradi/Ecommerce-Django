@@ -29,7 +29,8 @@ class ProductList(View):
     template_name = "product/product_list.html"
 
     def get(self, request, slug=None):
-        products = Product.objects.filter(available=True)
+        products = Product.objects.only('id', 'title', 'image', 'unit_price') \
+                                    .filter(available=True)
         f = ProductFilter(request.GET, queryset=products)
         products = f.qs
         mx = Product.objects.aggregate(unit_price=Max("unit_price"))
@@ -59,7 +60,7 @@ class ProductList(View):
             if form.is_valid():
                 info = form.cleaned_data["search"]
                 page_obj = products.filter(
-                    Q(title__icontains=info)
+                      Q(title__icontains=info)
                     | Q(description__icontains=info)
                     | Q(tag__title__icontains=info)
                 )
