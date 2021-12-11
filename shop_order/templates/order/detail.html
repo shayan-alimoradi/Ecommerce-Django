@@ -8,11 +8,11 @@
     <h3>Total Price: {{ order.get_total_price }}</h3><br>
 
     <div class="col-4">
-        <form method="POST" action="{% url 'order:coupon' order.id %}" novalidate>
+        {% comment %} <form method="POST" action="{% url 'order:coupon' order.id %}" novalidate>
             {% csrf_token %}
             {{ form.code|as_crispy_field }}
             <button type="submit" class="btn btn-outline-info">Confirm Discount</button>
-        </form><br>
+        </form><br> {% endcomment %}
         <a href="{% url 'order:request' order.get_total_price order.id %}" class="btn btn-outline-danger">Payment</a>
     </div>
 {% endblock %}

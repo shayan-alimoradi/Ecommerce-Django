@@ -1,5 +1,5 @@
 # Core Django imports
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.utils import timezone
@@ -18,7 +18,7 @@ from .forms import OrderForm, CouponForm
 
 
 def order_list(request):
-    orders = Order.objects.all()
+    orders = Order.objects.only('get_total_price')
     return render(request, "order/detail.html", {"orders": orders})
 
 
@@ -94,7 +94,7 @@ def send_request(request, price, order_id):
     if result.Status == 100:
         return redirect("https://www.zarinpal.com/pg/StartPay/" + str(result.Authority))
     else:
-        order = Order.objects.get(id=o_id)
+        order = get_object_or_404(Order, id=o_id)
         order.paid = True
         order.save()
         items = OrderItem.objects.filter(order_id=o_id)
