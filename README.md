@@ -24,7 +24,7 @@
         python manage.py migrate
 ```
 
-*Now you can run the project with **python manage.py runserver** and this site will be available on localhost://8000*
+*Now you can run the project with **python manage.py runserver** and this site will be available on http://localhost:8000*
 
 - - -
 
